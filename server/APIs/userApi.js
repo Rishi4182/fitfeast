@@ -18,10 +18,11 @@ userApp.post("/users",expressAsyncHandler(async(req,res)=>{
 }))
 
 //  modify user details by email
-userApp.put("/users/email",expressAsyncHandler(async(req,res)=>{
-   const modifieduser=req.body;
-   const dbres=await User.findOneAndUpdate({email:modifieduser.email},{$set:{...modifieduser}},{new:true})
-   res.status(200).send({message:"User Updated",payload:dbres})
+userApp.put("/users/:id",expressAsyncHandler(async(req,res)=>{
+   const userId=req.params.id;
+   const modifiedUser = req.body
+   const updatedUser = await User.findByIdAndUpdate(userId,{$set:{...modifiedUser}},{new:true})
+   res.status(200).send({message:"User Updated",payload:updatedUser})
 }))
 
 
