@@ -1,15 +1,16 @@
-const exp= require('express');
+const exp = require('express');
 const planApp = exp.Router();
 const Plan = require('../models/planModel');
 const expressAsyncHandler = require('express-async-handler');
+const mongoose = require('mongoose');
 
-//Get all plans
+// Get all plans
 planApp.get("/plans", expressAsyncHandler(async (req, res) => {
     const plansList = await Plan.find();
     res.status(200).send({ message: "Plans retrieved", payload: plansList });
 }));
 
-//Create a new plan
+// Create a new plan
 planApp.post("/plans", expressAsyncHandler(async (req, res) => {
     const plan = req.body;
     const newPlan = new Plan(plan);
@@ -17,13 +18,17 @@ planApp.post("/plans", expressAsyncHandler(async (req, res) => {
     res.status(201).send({ message: "Plan created", payload: savedPlan });
 }));
 
-//Update plan by ID
+// Update plan by ID
 planApp.put("/plans/:id", expressAsyncHandler(async (req, res) => {
     const planId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(planId)) {
+        return res.status(400).send({ message: "Invalid Plan ID" });
+    }
+
     const modifiedPlan = req.body;
-    
     const updatedPlan = await Plan.findByIdAndUpdate(planId, { $set: { ...modifiedPlan } }, { new: true });
-    
+
     if (updatedPlan) {
         res.status(200).send({ message: "Plan updated", payload: updatedPlan });
     } else {
@@ -31,12 +36,16 @@ planApp.put("/plans/:id", expressAsyncHandler(async (req, res) => {
     }
 }));
 
-//DELETE a plan by ID
+// DELETE a plan by ID
 planApp.delete("/plans/:id", expressAsyncHandler(async (req, res) => {
     const planId = req.params.id;
-    
+
+    if (!mongoose.Types.ObjectId.isValid(planId)) {
+        return res.status(400).send({ message: "Invalid Plan ID" });
+    }
+
     const deletedPlan = await Plan.findByIdAndDelete(planId);
-    
+
     if (deletedPlan) {
         res.status(200).send({ message: "Plan deleted successfully", payload: deletedPlan });
     } else {
@@ -45,6 +54,3 @@ planApp.delete("/plans/:id", expressAsyncHandler(async (req, res) => {
 }));
 
 module.exports = planApp;
-
-
-
