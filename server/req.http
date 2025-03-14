@@ -31,3 +31,68 @@ Content-Type: application/json
     "email": "rishi@gmail.com",
     "profileImageUrl":"dfgfdgdf"
 }
+
+###get all plans
+GET http://localhost:4000/plan-api/plans
+
+
+###create new plan
+POST http://localhost:4000/plan-api/plans
+Content-Type: application/json
+
+{
+    "userId": "67d3d844b6633e740db28d6b",
+    "title": "14-Day Fat Loss Plan",
+    "description": "A 14-day plan focused on cardio and balanced meals.",
+    "type": "combined",
+    "duration": 14,
+    "goals": ["fat loss", "stamina"],
+    "dietaryPreferences": ["low-carb", "high-protein"],
+    "steps": [
+        "Start each morning with 10 minutes of stretching",
+        "Include lean protein in every meal",
+        "Hydrate well throughout the day"
+    ],
+    "exercises": [
+        {
+            "name": "Jumping Jacks",
+            "type": "Cardio",
+            "duration": 5,
+            "repetitions": 30,
+            "sets": 3
+        },
+        {
+            "name": "Squats",
+            "type": "Strength",
+            "duration": 10,
+            "repetitions": 20,
+            "sets": 3
+        }
+    ]
+}
+
+###update plan by Id
+PUT http://localhost:4000/plan-api/plans/67d3d844b6633e740db28d6b
+Content-Type: application/json
+
+{
+    "title": "Updated 14-Day Fat Loss Plan",
+    "duration": 15,
+    "steps": [
+        "Start with 15 minutes of cardio daily",
+        "Include more fiber-rich foods"
+    ],
+    "exercises": [
+        {
+            "name": "Plank",
+            "type": "Strength",
+            "duration": 3,
+            "repetitions": 1,
+            "sets": 3
+        }
+    ]
+}
+
+
+###delete plan
+DELETE http://localhost:4000/plan-api/plans/67d3d844b6633e740db28d6b
