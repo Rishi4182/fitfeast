@@ -1,30 +1,32 @@
-# GET http://localhost:4000/user-api/users
+###
+GET http://localhost:4000/user-api/users
 
-# POST http://localhost:4000/user-api/users
-# Content-Type: application/json
-
-# {
-#     "height":184,
-#     "weight": 77,
-#     "age": 20,
-#     "desiredweight":74,
-#     "gender":"Male",
-#     "firstName": "Rishi",
-#     "lastName": "Varma",
-#     "email": "rishi@gmail.com",
-#     "profileImageUrl":"dfgfdgdf"
-# }
-
-
-PUT http://localhost:4000/user-api/users/email
+###
+POST http://localhost:4000/user-api/users
 Content-Type: application/json
 
 {
-    "_id": "67d3d844b6633e740db28d6b",
     "height":184,
     "weight": 77,
     "age": 20,
-    "desiredweight":71,
+    "desiredweight":74,
+    "gender":"Male",
+    "firstName": "Rishi",
+    "lastName": "Varma",
+    "email": "rishi@gmail.com",
+    "profileImageUrl":"dfgfdgdf"
+}
+
+###
+PUT http://localhost:4000/user-api/users/67d4299adc8184c6b0b40e00
+Content-Type: application/json
+
+{
+    "_id": "67d4299adc8184c6b0b40e00",
+    "height":184,
+    "weight": 77,
+    "age": 20,
+    "desiredweight":70,
     "gender":"Male",
     "firstName": "Rishi",
     "lastName": "Varma",
@@ -47,7 +49,6 @@ Content-Type: application/json
     "type": "combined",
     "duration": 14,
     "goals": ["fat loss", "stamina"],
-    "dietaryPreferences": ["low-carb", "high-protein"],
     "steps": [
         "Start each morning with 10 minutes of stretching",
         "Include lean protein in every meal",
@@ -72,7 +73,7 @@ Content-Type: application/json
 }
 
 ###update plan by Id
-PUT http://localhost:4000/plan-api/plans/67d3d844b6633e740db28d6b
+PUT http://localhost:4000/plan-api/plans/67d42d7edd6eceead72e4a16
 Content-Type: application/json
 
 {
@@ -95,4 +96,4 @@ Content-Type: application/json
 
 
 ###delete plan
-DELETE http://localhost:4000/plan-api/plans/67d3d844b6633e740db28d6b
+DELETE http://localhost:4000/plan-api/plans/67d42d7edd6eceead72e4a16
