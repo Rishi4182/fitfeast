@@ -2,8 +2,10 @@ const exp=require("express")
 const app=exp();
 require('dotenv').config()
 const mongoose=require("mongoose");
+const userApp = require("./APIs/userApi");
+const planApp = require("./APIs/planApi");
 
-const port=process.env.PORT || 3000
+const port=process.env.PORT || 4000
 
 mongoose.connect(process.env.DBURL)
 .then(()=>{
@@ -12,6 +14,10 @@ mongoose.connect(process.env.DBURL)
 })
 .catch(err=> console.log("Error in DB connection",err))
 
+
+app.use(exp.json())
+app.use('/user-api',userApp)
+app.use('/plan-api',planApp)
 
 
 
