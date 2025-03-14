@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-//exercise schema
+// Exercise schema
 const exerciseSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -17,7 +17,23 @@ const exerciseSchema = new mongoose.Schema({
     },
 }, { _id: false });
 
-// Plan Schema
+// Food schema
+const foodSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    quantity: {
+        type: String,
+        required: true
+    },
+    calories: {
+        type: Number,
+        required: true
+    }
+}, { _id: false });
+
+// Plan schema
 const planSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -42,14 +58,14 @@ const planSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    dietaryPreferences: {
-        type: [String]
-    },
     steps: {
         type: [String]
     },
     exercises: {
         type: [exerciseSchema]
+    },
+    foods: {
+        type: [foodSchema]
     },
     createdAt: {
         type: Date,
