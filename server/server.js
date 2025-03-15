@@ -4,6 +4,8 @@ require('dotenv').config()
 const mongoose=require("mongoose");
 const userApp = require("./APIs/userApi");
 const planApp = require("./APIs/planApi");
+const cors=require('cors')
+app.use(cors())
 
 const port=process.env.PORT || 4000
 

@@ -2,9 +2,20 @@ const exp=require('express')
 const userApp=exp.Router()
 const User=require('../models/userModel')
 const expressAsyncHandler=require('express-async-handler')
-
 // get all users
-userApp.get("/users",expressAsyncHandler(async(req,res)=>{
+userApp.get("/users/:email",expressAsyncHandler(async(req,res)=>{
+   let email=req.params.email
+   const user=await User.findOne({email:email})
+   if(user==null)
+   {
+      res.send({message:"User Not Found"})
+   }
+   else{
+      res.send({message:"User Found",payload:user})
+   }
+}))
+
+userApp.get("/user",expressAsyncHandler(async(req,res)=>{
    let usersList=await User.find()
    res.status(200).send({message:"users",payload:usersList})
 }))
@@ -17,7 +28,7 @@ userApp.post("/users",expressAsyncHandler(async(req,res)=>{
    res.status(201).send({message:"User created",payload:newUserDoc})
 }))
 
-//  modify user details by email
+//  modify user details by id
 userApp.put("/users/:id",expressAsyncHandler(async(req,res)=>{
    const userId=req.params.id;
    const modifiedUser = req.body

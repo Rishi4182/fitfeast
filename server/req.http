@@ -1,5 +1,8 @@
 ###
-GET http://localhost:4000/user-api/users
+GET http://localhost:4000/user-api/user
+
+###
+GET http://localhost:4000/user-api/users/rishi@gmail.com
 
 ###
 POST http://localhost:4000/user-api/users
@@ -13,20 +16,19 @@ Content-Type: application/json
     "gender":"Male",
     "firstName": "Rishi",
     "lastName": "Varma",
-    "email": "rishi@gmail.com",
+    "email": "rishivamra.d@gmail.com",
     "profileImageUrl":"dfgfdgdf"
 }
 
 ###
-PUT http://localhost:4000/user-api/users/67d4299adc8184c6b0b40e00
+PUT http://localhost:4000/user-api/users/67d540c27f6e86d5b1f9aa28
 Content-Type: application/json
 
 {
-    "_id": "67d4299adc8184c6b0b40e00",
-    "height":184,
-    "weight": 77,
+    "height":182,
+    "weight": 71,
     "age": 20,
-    "desiredweight":70,
+    "desiredweight":69,
     "gender":"Male",
     "firstName": "Rishi",
     "lastName": "Varma",
@@ -73,7 +75,7 @@ Content-Type: application/json
 }
 
 ###update plan by Id
-PUT http://localhost:4000/plan-api/plans/67d42d7edd6eceead72e4a16
+PUT http://localhost:4000/plan-api/plans/67d4e28d7264e0a927bcf756
 Content-Type: application/json
 
 {

@@ -9,6 +9,11 @@ function UserContext({children}) {
         lastName:"",
         email:"",
         profileImageUrl:"",
+        height:0,
+        weight:0,
+        age:0,
+        gender:"",
+        desiredweight:0
        }
     )
 

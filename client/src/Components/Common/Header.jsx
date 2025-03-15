@@ -47,9 +47,20 @@ const Header = () => {
                 </li>
                 </>
               ):(
-                <button onClick={handleSignOut} className='me-4'>
+                <ul className='d-flex justify-content-center list-unstyled'>
+                <li>
+                 <Link to='user-profile/:email' className='me-4'>
+                 <div stlye={{position:'relative'}}>
+                  <img src={currentUser.profileImageUrl} alt="user" width='40px' className='rounded-circle' />
+                  <p style={{position:'absolute'}}>{currentUser.firstName}</p>
+                 </div>
+               </Link>
+               </li>
+               <li><button onClick={handleSignOut} className='me-4'>
                   SignOut
                 </button>
+                </li>
+          </ul>
               )}
 
             </ul>

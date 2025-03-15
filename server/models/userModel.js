@@ -2,24 +2,19 @@ const mongoose=require("mongoose")
 
 const userSchema=new mongoose.Schema({
     height:{
-        type:Number,
-        required:true
+        type:Number
     },
     weight:{
-        type:Number,
-        required:true
+        type:Number
     },
     age:{
-        type:Number,
-        required:true
+        type:Number
     },
     gender:{
-        type:String,
-        required:true
+        type:String
     },
     desiredweight:{
-        type:Number,
-        required:true
+        type:Number
     },
     email:{
         type:String,
