@@ -1,8 +1,8 @@
 // import React from 'react'
 
-import { useContext  } from 'react'
+import { useContext ,useState} from 'react'
 import { userContextObj } from '../../Contexts/UserContext'
-import { useForm } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import axios from 'axios'
 
 function UserProfile() {
@@ -14,10 +14,13 @@ function UserProfile() {
     formState: { errors },
     reset,
   } = useForm();
-
+  const [gen, setGender] = useState("");
+  function handleChange(event){
+     setGender(event.target.value)
+  }
   async function adddetails(newuser) {
     // Determine gender correctly
-    newuser.gender = newuser.male ? "Male" : "Female";
+    newuser.gender = gen;
 
     console.log("User Data Before Update:", newuser);
 
@@ -46,9 +49,9 @@ function UserProfile() {
  }
 
   return (
-    <div className="king">
+    <div className="form">
     <form onSubmit={handleSubmit(adddetails)}>
-      <div className="user">
+      <div className="firstname">
         <label htmlFor="firstName" className="form-label">
           FirstName
         </label>
@@ -63,7 +66,7 @@ function UserProfile() {
           className="form-control"
         disabled/>
       </div>
-      <div className="dte">
+      <div className="lastname">
       <label htmlFor="lastName" className="form-label">
           LastName
         </label>
@@ -78,7 +81,7 @@ function UserProfile() {
           className="form-control"
         disabled/>
       </div>
-      <div className="selt">
+      <div className="email">
       <label htmlFor="email" className="form-label">
           Email
         </label>
@@ -90,29 +93,14 @@ function UserProfile() {
         disabled/>
       </div>
       <div className='gender'>
-            <label className="gender">Gender</label>
-            <div className="d-flex king">
-              <div className="form-check lot">
-                <input
-                  type="radio"
-                  {...register("male")}
-                  className="form-check-input"
-                />
-                <label htmlFor="male" className="form-check-label">
-                  Male
-                </label>
-              </div>
-              <div className="form-check lot">
-                <input
-                  type="radio"
-                  {...register("female")}
-                  className="form-check-input"
-                />
-                <label htmlFor="female" className="form-check-label">
-                  Female
-                </label>
-              </div>
-            </div>
+      <label>
+      Gender:
+        <select value={currentUser.gender} onChange={handleChange}>
+          <option value="">Select...</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </label>
           </div>
       <div className='age'>
         <label htmlFor="age" className="form-label">Age</label>
