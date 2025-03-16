@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { userContextObj } from '../../Contexts/UserContext'
 import {useUser} from '@clerk/clerk-react'
 import {useNavigate} from 'react-router-dom'
@@ -11,39 +11,32 @@ function Home() {
   const [error , setError]=useState("")
   const navigate = useNavigate()
 
-  function setc(nw)
-  {
-    setCurrentUser({
-      ...currentUser,
-      height:Number(nw.height),
-      age:Number(nw.age),
-      weight:Number(nw.weight),
-      desiredweight:Number(nw.desiredweight),
-      gender:nw?.gender
-    })
-  }
-
   useEffect(()=>{
+    
     if (isSignedIn === true){
-      setCurrentUser({
-        ...currentUser,
-        firstName:user?.firstName,
-        lastName:user?.lastName,
-        email:user?.emailAddresses[0].emailAddress,
-        profileImageUrl:user?.imageUrl
+      axios.get(`http://localhost:4000/user-api/users/${user?.emailAddresses[0].emailAddress}`)
+      .then((rep) => {
+        if (rep.data.message === "User Not Found") {
+          setCurrentUser({
+            ...currentUser,
+            firstName:user?.firstName,
+            lastName:user?.lastName,
+            email:user?.emailAddresses[0].emailAddress,
+            profileImageUrl:user?.imageUrl
+          })
+          // console.log(currentUser)
+
+        } else {
+          // console.log(rep.data)
+          setCurrentUser(rep.data.payload)
+          // console.log(rep.data.payload)
+        }
       })
+      .catch(err=>console.log("Some Error occured", err))
+      
+      
     }
   },[isLoaded])
-  let res=null;
-  let p=0;
-  useEffect(()=>{
-    axios.get(`http://localhost:4000/user-api/users`)
-      .then((res)=>{
-        setc(res.data.payload[0])
-      })
-      .catch(err=>console.log("Some Error occured"))
-  },[])
- console.log("User:",currentUser)
 
   return (
     <div>Home</div>
