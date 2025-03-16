@@ -28,7 +28,12 @@ const userSchema=new mongoose.Schema({
     lastName:{
         type:String
     },
-    profileImageUrl:{type:String}
+    profileImageUrl:{
+        type:String
+    },
+    userProducts:{
+        type:[Object]
+    }
 },{"strict":"throw"})
 
 

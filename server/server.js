@@ -4,6 +4,7 @@ require('dotenv').config()
 const mongoose=require("mongoose");
 const userApp = require("./APIs/userApi");
 const planApp = require("./APIs/planApi");
+const productApp = require("./APIs/productApi")
 const cors=require('cors')
 app.use(cors())
 
@@ -20,6 +21,7 @@ mongoose.connect(process.env.DBURL)
 app.use(exp.json())
 app.use('/user-api',userApp)
 app.use('/plan-api',planApp)
+app.use('/product-api',productApp)
 
 
 

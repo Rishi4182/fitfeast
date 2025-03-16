@@ -13,7 +13,8 @@ function UserContext({children}) {
         weight:0,
         age:0,
         gender:"",
-        desiredweight:0
+        desiredweight:0,
+        userProducts:[]
        }
     )
 

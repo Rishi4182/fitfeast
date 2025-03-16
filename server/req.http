@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:4000/user-api/users/67d540c27f6e86d5b1f9aa28
+PUT http://localhost:4000/user-api/users/67d679640753b18bead4e780
 Content-Type: application/json
 
 {
@@ -33,7 +33,8 @@ Content-Type: application/json
     "firstName": "Rishi",
     "lastName": "Varma",
     "email": "rishi@gmail.com",
-    "profileImageUrl":"dfgfdgdf"
+    "profileImageUrl":"dfgfdgdf",
+    "userProducts":[{"title":"dkfkldsj"}]
 }
 
 ###get all plans
@@ -99,3 +100,23 @@ Content-Type: application/json
 
 ###delete plan
 DELETE http://localhost:4000/plan-api/plans/67d42d7edd6eceead72e4a16
+
+
+
+###get all products
+GET http://localhost:4000/product-api/product
+
+###get product by id
+GET http://localhost:4000/product-api/product/67d6ea70fd31443e80d88123
+
+###create product
+POST http://localhost:4000/product-api/products
+Content-Type: application/json
+
+{
+    "img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMqTDZdbMDwaqVL83Wois6gzSJIdHkZpxD4A&s",
+    "title":"protein bar",
+    "description":"get your energy back with this ",
+    "price":500,
+    "id":7
+}
