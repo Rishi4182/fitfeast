@@ -2,7 +2,7 @@
 GET http://localhost:4000/user-api/user
 
 ###
-GET http://localhost:4000/user-api/users/rishi@gmail.com
+GET http://localhost:4000/user-api/users/haradeeps119@gmail.com
 
 ###
 POST http://localhost:4000/user-api/users

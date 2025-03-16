@@ -1,8 +1,9 @@
-import React from 'react'
-import axios from 'axios'
-import { useContext, useEffect, useState } from 'react'
+// import React from 'react'
+
+import { useContext  } from 'react'
 import { userContextObj } from '../../Contexts/UserContext'
 import { useForm } from "react-hook-form";
+import axios from 'axios'
 
 function UserProfile() {
   const {currentUser , setCurrentUser}=useContext(userContextObj)
@@ -13,31 +14,37 @@ function UserProfile() {
     formState: { errors },
     reset,
   } = useForm();
+
   async function adddetails(newuser) {
-    if(newuser.male==="on")
-      newuser.gender="Male"
-    else
-    newuser.gender="Female"
-    setCurrentUser({
-      ...currentUser,
-      height:Number(newuser.height),
-      age:Number(newuser.age),
-      weight:Number(newuser.weight),
-      desiredweight:Number(newuser.desiredweight),
-      gender:newuser?.gender
-    })
-    let rep=await axios.get(`http://localhost:4000/user-api/users/${currentUser.email}`)
-    if(rep.data.message==="User Not Found")
-    {
-      let pst=await axios.post('http://localhost:4000/user-api/users',currentUser)
-      console.log(pst.data.message)
+    // Determine gender correctly
+    newuser.gender = newuser.male ? "Male" : "Female";
+
+    console.log("User Data Before Update:", newuser);
+
+    
+
+    try {
+        // Check if user exists in DB
+        const rep1 = await axios.get(`http://localhost:4000/user-api/users/${newuser.email}`);
+        
+        if (rep1.data.message === "User Not Found") {
+            // If user does not exist, create a new user
+            await axios.post('http://localhost:4000/user-api/users', {...currentUser,height: Number(newuser.height),age: Number(newuser.age),weight: Number(newuser.weight),desiredweight: Number(newuser.desiredweight),gender: newuser.gender});
+        } else {
+            // If user exists, update user details
+            await axios.put(`http://localhost:4000/user-api/users/${rep1.data.payload._id}`,{...currentUser,height: Number(newuser.height),age: Number(newuser.age),weight: Number(newuser.weight),desiredweight: Number(newuser.desiredweight),gender: newuser.gender});
+        }
+
+        // Fetch updated user data
+        const rep2 = await axios.get(`http://localhost:4000/user-api/users/${newuser.email}`);
+        setCurrentUser(rep2.data.payload);
+
+        console.log("Updated User Data:", rep2.data.payload);
+    } catch (error) {
+        console.error("Error updating user:", error);
     }
-    else
-    {
-    let pt=await axios.put(`http://localhost:4000/user-api/users/${rep.data.payload._id}`,currentUser)
-    console.log(pt.data.payload)
-  } 
-  }
+ }
+
   return (
     <div className="king">
     <form onSubmit={handleSubmit(adddetails)}>
@@ -54,7 +61,7 @@ function UserProfile() {
           })}
           id="firstName"
           className="form-control"
-        />
+        disabled/>
       </div>
       <div className="dte">
       <label htmlFor="lastName" className="form-label">
@@ -69,7 +76,7 @@ function UserProfile() {
           })}
           id="lastName"
           className="form-control"
-        />
+        disabled/>
       </div>
       <div className="selt">
       <label htmlFor="email" className="form-label">
@@ -80,7 +87,7 @@ function UserProfile() {
           {...register("email")}
           id="email"
           className="form-control"
-        />
+        disabled/>
       </div>
       <div className='gender'>
             <label className="gender">Gender</label>
@@ -91,7 +98,7 @@ function UserProfile() {
                   {...register("male")}
                   className="form-check-input"
                 />
-                <label htmlFor="female" className="form-check-label">
+                <label htmlFor="male" className="form-check-label">
                   Male
                 </label>
               </div>
@@ -101,7 +108,7 @@ function UserProfile() {
                   {...register("female")}
                   className="form-check-input"
                 />
-                <label htmlFor="male" className="form-check-label">
+                <label htmlFor="female" className="form-check-label">
                   Female
                 </label>
               </div>
@@ -125,7 +132,7 @@ function UserProfile() {
       </div>
 
       <button type="submit" className="btn btn-success">
-        Submit
+        Edit
       </button>
     </form>
   </div>
