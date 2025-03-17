@@ -1,8 +1,31 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Product.css'
+import { userContextObj } from '../../Contexts/UserContext'
+import axios from 'axios'
 
 function CartProduct(props) {
     // console.log(props.p)
+
+    const {currentUser,setCurrentUser}=useContext(userContextObj)
+
+    async function deleteItem(){
+        let temp = props.p.price
+        let id=props.p.id
+        // console.log(id)
+        let updatedUserProducts=currentUser.userProducts.filter(product=>product.id!=id)
+        // console.log(updatedUserProducts)
+        
+        await axios.put(`http://localhost:4000/user-api/users/${currentUser._id}`,{...currentUser,userProducts:updatedUserProducts})
+
+        const rep=await axios.get(`http://localhost:4000/user-api/users/${currentUser.email}`)
+        rep.data.payload.cost=rep.data.payload.cost - temp
+        setCurrentUser(rep.data.payload);
+        // console.log(currentUser)
+    }
+
+
+
+
   return (
     <div className='ff-product-item card h-100' style={{ height: "350px" }}>
     <div className="ff-product-item-head card-img-top d-flex justify-content-center">
@@ -17,6 +40,8 @@ function CartProduct(props) {
             {props.p.description}
         </p>
         <p className='ff-product-item-price card-text fw-bold'>${props.p.price}</p>
+        <button className='btn btn-danger ' onClick={deleteItem}>Remove</button>
+
     </div>
 </div>
   )

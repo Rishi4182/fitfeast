@@ -33,6 +33,9 @@ const userSchema=new mongoose.Schema({
     },
     userProducts:{
         type:[Object]
+    },
+    cost:{
+        type:Number
     }
 },{"strict":"throw"})
 

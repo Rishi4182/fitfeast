@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState , useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import { useContext } from 'react';
 import {userContextObj} from '../../Contexts/UserContext'
@@ -6,11 +6,22 @@ import axios from 'axios'
 // import './Product.css'
 
 function Product(props) {
+
   const {currentUser, setCurrentUser} = useContext(userContextObj);
   const navigate=useNavigate()
+  const [isInCart, setIsInCart] = useState(false);
+  // const {counter,setCounter}=useState(0)
 //  console.log(currentUser)
 
+
+  useEffect(() => {
+    if (currentUser && currentUser.userProducts) {
+      setIsInCart(currentUser.userProducts.some(product => product._id === props.p._id));
+    }
+  }, [currentUser, props.p]);
+
   async function addToCart() {
+    let temp=props.p.price
     // console.log(props.p)
     if (currentUser.email.length === 0) {
       navigate('/signin')
@@ -28,10 +39,16 @@ function Product(props) {
       
       // Fetch updated user data
       const rep2 = await axios.get(`http://localhost:4000/user-api/users/${currentUser.email}`);
+      rep2.data.payload.cost = rep2.data.payload.cost + temp 
       setCurrentUser(rep2.data.payload)
     }
+    
+
+    // setCounter(counter+1)
   }
 
+
+ 
 
   // console.log(props.p)
   return (
@@ -60,8 +77,30 @@ function Product(props) {
             {props.p.description}
         </p>
         <p className='ff-product-item-price card-text fw-bold'>${props.p.price}</p>
-        <button type="submit" className='btn btn-success text-white mt-auto' onClick={addToCart}>Add to Cart</button>
+        {/* <button type="submit" className='btn btn-success text-white mt-auto' onClick={addToCart}>Add to Cart</button> */}
+        {
+          isInCart ? (
+            <button className='btn btn-light text-dark mt-auto' onClick={() => navigate('/cart')}>
+              View Cart
+            </button>
+          ) : (
+            <button className='btn btn-success text-white mt-auto' onClick={addToCart}>
+              Add to Cart
+            </button>
+          )
+        }
+        {/* {
+          currentUser.userProducts.map((Obj)=>{
+            if (Obj === props.p) {
+              return true 
+            }
+          }) ? (<button type="submit" className='btn btn-success text-white mt-auto' onClick={()=>{
+            navigate('/cart')
+          }}>View Cart</button>):(<button type="submit" className='btn btn-success text-white mt-auto' onClick={addToCart}>Add to Cart</button>)
+        } */}
+        
     </div>
+
 </div>
 
   

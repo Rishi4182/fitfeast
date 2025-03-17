@@ -16,6 +16,7 @@ function Cart() {
              <h1>Your Cart is Empty</h1>
             ) : (
              <div className='container mx-auto mt-5 mb-2'>
+                <h1>Total Cost : ${currentUser.cost}</h1>
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-gap-3">
                     {
                         userProd.map((Obj)=>{
@@ -25,6 +26,7 @@ function Cart() {
                             </div>
                             );
                         })
+                       
                     }
                 </div>
              </div>

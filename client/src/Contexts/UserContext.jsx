@@ -14,7 +14,8 @@ function UserContext({children}) {
         age:0,
         gender:"",
         desiredweight:0,
-        userProducts:[]
+        userProducts:[],
+        cost:0
        }
     )
 
