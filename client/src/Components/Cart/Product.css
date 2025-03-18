@@ -1,0 +1,37 @@
+/* * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.ff-product-item-img{
+    width: 60%;
+    height: 170px;
+}
+
+.ff-product-item-title {
+    height: 55px;
+    border: 3px solid black;
+    overflow: hidden;
+}
+
+
+.ff-product-item {
+    padding: 10px;
+    border: 3px solid black;
+    text-align: center;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ff-product-item-title {
+    font-size: 20px;
+}
+
+.ff-product-item-description {
+    border: 3px solid black;
+    height: 60px;
+    overflow: hidden;
+} */

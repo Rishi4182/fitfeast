@@ -2,7 +2,7 @@ const exp=require('express')
 const userApp=exp.Router()
 const User=require('../models/userModel')
 const expressAsyncHandler=require('express-async-handler')
-// get all users
+
 userApp.get("/users/:email",expressAsyncHandler(async(req,res)=>{
    let email=req.params.email
    const user=await User.findOne({email:email})
@@ -14,7 +14,7 @@ userApp.get("/users/:email",expressAsyncHandler(async(req,res)=>{
       res.send({message:"User Found",payload:user})
    }
 }))
-
+// get all users
 userApp.get("/user",expressAsyncHandler(async(req,res)=>{
    let usersList=await User.find()
    res.status(200).send({message:"users",payload:usersList})

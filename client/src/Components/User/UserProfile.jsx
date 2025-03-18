@@ -7,7 +7,7 @@ import axios from 'axios'
 
 function UserProfile() {
   const {currentUser , setCurrentUser}=useContext(userContextObj)
-  console.log(currentUser)
+  // console.log(currentUser)
   const {
     register,
     handleSubmit,
