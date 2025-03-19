@@ -11,6 +11,7 @@ import UserProfile from './Components/User/UserProfile'
 import UserContext from './Contexts/UserContext'
 import Products from './Components/Cart/Products'
 import Cart from './Components/Cart/Cart'
+import Plans from './Components/Plans/plans'
 import './App.css'
 // import App from './App.jsx'
 
@@ -26,6 +27,10 @@ const browserRouterObj = createBrowserRouter([
       {
         path:"products",
         element:<Products/>
+      },
+      {
+        path:"plans",
+        element:<Plans/>
       },
       {
         path:"cart",

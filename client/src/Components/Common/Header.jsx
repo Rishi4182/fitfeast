@@ -43,6 +43,15 @@ const Header = () => {
                   Products
                 </Link>
               </li>
+              {isSignedIn?(
+                <>
+                <li>
+                  <Link to='plans' className='me-4'>
+                    Plans
+                  </Link>
+                </li>
+                </>
+                ):(<p></p>)}
               {!isSignedIn?(
                 <>
                 <li>

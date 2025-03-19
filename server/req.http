@@ -117,9 +117,9 @@ POST http://localhost:4000/product-api/products
 Content-Type: application/json
 
 {
-    "img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMqTDZdbMDwaqVL83Wois6gzSJIdHkZpxD4A&s",
-    "title":"protein bar",
-    "description":"get your energy back with this ",
-    "price":500,
-    "id":7
+    "img":"https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwi79pPr5ZKMAxXzqGYCHWa3BxgYABALGgJzbQ&co=1&gclid=Cj0KCQjwkN--BhDkARIsAD_mnIquWTAFvKYnglKhbow9w3upY1q3f-PYW4VbfC1xBu_m3uhfGOpZXzEaArLUEALw_wcB&ohost=www.google.com&cid=CAESVeD2JZTPhYmltUNffpu4hWOT76rUEgLBE-bGmz4BZBai0c6NvWgl5NDdvAUPawJS8BZRu1p41heZYmvULFClQ72g0-TEgzvNDTmL9USJFBgn21jTFms&sig=AOD64_2iAejTu70b9oHGjQuZ6FPqkGEYzA&ctype=5&q=&ved=2ahUKEwjc8o7r5ZKMAxWAXGwGHTnvDFMQ9aACKAB6BAgJEDY&adurl=",
+    "title":"Creatine",
+    "description":"Boost up your enrgy",
+    "price":800,
+    "id":10
 }
