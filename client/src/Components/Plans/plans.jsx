@@ -37,6 +37,7 @@ function plans() {
             cal1=Math.round(bmr*1.55);
         else if(activity==="Very Active")
             cal1=Math.round(bmr*1.725);
+    console.log(cal1)
 if(currentUser.desiredweight>currentUser.weight)
     {
         fat=currentUser.desiredweight-currentUser.weight
@@ -180,7 +181,14 @@ if(currentUser.desiredweight>currentUser.weight)
      
       function showValues(chng,fl)
       {
-        if(currentUser.desiredweight>currentUser.weight)
+        if((fl-chng)>3000)
+        {
+            return(
+                <div>
+                    <p>It is not recommended for you to gain weight.</p>
+                </div>);
+        }
+        else if(currentUser.desiredweight>currentUser.weight)
         {
             if(fl>3500)
             {
@@ -218,7 +226,14 @@ if(currentUser.desiredweight>currentUser.weight)
         }}
         else
         {
-            if(chng>1000)
+            if((fl+chng)<1900)
+            {
+                return(
+                    <div>
+                        <p>It is not recommended for you to loose weight.</p>
+                    </div>);
+            }
+            else if(chng>1000 || fl<1500)
             {
                 return(
             <div>
