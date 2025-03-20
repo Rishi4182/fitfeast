@@ -19,8 +19,9 @@ function CartProduct(props) {
 
         const rep=await axios.get(`http://localhost:4000/user-api/users/${currentUser.email}`)
         rep.data.payload.cost=rep.data.payload.cost - temp
+        await axios.put(`http://localhost:4000/user-api/users/${rep.data.payload._id}`, {cost:rep.data.payload.cost})
         setCurrentUser(rep.data.payload);
-        // console.log(currentUser)
+        console.log(rep.data.payload)
     }
 
 

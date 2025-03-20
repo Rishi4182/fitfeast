@@ -1,56 +1,30 @@
-const exp = require('express');
-const planApp = exp.Router();
-const Plan = require('../models/planModel');
-const expressAsyncHandler = require('express-async-handler');
-const mongoose = require('mongoose');
+const exp = require('express')
+const planApp = exp.Router()
+const Plan = require('../models/planModel')
+const expressAsyncHandler = require('express-async-handler')
 
-// Get all plans
-planApp.get("/plans", expressAsyncHandler(async (req, res) => {
-    const plansList = await Plan.find();
-    res.status(200).send({ message: "Plans retrieved", payload: plansList });
-}));
+// get all plans
+planApp.get("/plan", expressAsyncHandler(async(req, res)=> {
+    let planList = await Plan.find()
+    res.status(200).send({message:"Plans", payload:planList})
+}))
 
-// Create a new plan
-planApp.post("/plans", expressAsyncHandler(async (req, res) => {
+// get plan by calories
+planApp.get("/plan/:calories", expressAsyncHandler(async(req, res)=> {
+    const plan = await Plan.findOne({calories:req.params.calories})
+    if (plan == null) {
+        res.send({message:"Plan not found"})
+    } else {
+        res.status(200).send({message:"Plan Found", payload: plan})
+    }
+}))
+
+// create a new plan in database
+planApp.post("/plans", expressAsyncHandler(async(req, res)=> {
     const plan = req.body;
-    const newPlan = new Plan(plan);
-    const savedPlan = await newPlan.save();
-    res.status(201).send({ message: "Plan created", payload: savedPlan });
-}));
+    let newPlan = new Plan(plan);
+    let newPlanDoc = await newPlan.save();
+    res.status(201).send({message:"Plan created", payload:newPlanDoc})
+}))
 
-// Update plan by ID
-planApp.put("/plans/:id", expressAsyncHandler(async (req, res) => {
-    const planId = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(planId)) {
-        return res.status(400).send({ message: "Invalid Plan ID" });
-    }
-
-    const modifiedPlan = req.body;
-    const updatedPlan = await Plan.findByIdAndUpdate(planId, { $set: { ...modifiedPlan } }, { new: true });
-
-    if (updatedPlan) {
-        res.status(200).send({ message: "Plan updated", payload: updatedPlan });
-    } else {
-        res.status(404).send({ message: "Plan not found" });
-    }
-}));
-
-// DELETE a plan by ID
-planApp.delete("/plans/:id", expressAsyncHandler(async (req, res) => {
-    const planId = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(planId)) {
-        return res.status(400).send({ message: "Invalid Plan ID" });
-    }
-
-    const deletedPlan = await Plan.findByIdAndDelete(planId);
-
-    if (deletedPlan) {
-        res.status(200).send({ message: "Plan deleted successfully", payload: deletedPlan });
-    } else {
-        res.status(404).send({ message: "Plan not found" });
-    }
-}));
-
-module.exports = planApp;
+module.exports = planApp 

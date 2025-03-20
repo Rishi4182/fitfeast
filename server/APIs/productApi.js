@@ -12,7 +12,7 @@ productApp.get("/product",expressAsyncHandler(async(req,res)=>{
 // get product by id
 productApp.get("/product/:_id", expressAsyncHandler(async(req, res)=> {
     const product = await Product.findById(req.params._id)
-    res.status(200).send({message:"Product", payload:product})
+    res.status(200).send({message:"Product Found", payload:product})
 }))
 
 // create a new product in database

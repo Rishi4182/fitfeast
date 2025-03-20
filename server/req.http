@@ -41,7 +41,10 @@ Content-Type: application/json
 }
 
 ###get all plans
-GET http://localhost:4000/plan-api/plans
+GET http://localhost:4000/plan-api/plan
+
+###get plan by calories
+GET http://localhost:4000/plan-api/plan/1600
 
 
 ###create new plan
@@ -49,61 +52,21 @@ POST http://localhost:4000/plan-api/plans
 Content-Type: application/json
 
 {
-    "userId": "67d3d844b6633e740db28d6b",
-    "title": "14-Day Fat Loss Plan",
-    "description": "A 14-day plan focused on cardio and balanced meals.",
-    "type": "combined",
-    "duration": 14,
-    "goals": ["fat loss", "stamina"],
-    "steps": [
-        "Start each morning with 10 minutes of stretching",
-        "Include lean protein in every meal",
-        "Hydrate well throughout the day"
-    ],
-    "exercises": [
-        {
-            "name": "Jumping Jacks",
-            "type": "Cardio",
-            "duration": 5,
-            "repetitions": 30,
-            "sets": 3
-        },
-        {
-            "name": "Squats",
-            "type": "Strength",
-            "duration": 10,
-            "repetitions": 20,
-            "sets": 3
-        }
-    ]
+    "id":1,
+    "calories":1600,
+    "veg":{
+        "breakfast":["idk"], 
+        "lunch":["idk"], 
+        "snacks":["idk"], 
+        "dinner":["idk"]
+    }, 
+    "nonveg":{
+        "breakfast":["idk"], 
+        "lunch":["idk"], 
+        "snacks":["idk"], 
+        "dinner":["idk"]
+    }
 }
-
-###update plan by Id
-PUT http://localhost:4000/plan-api/plans/67d4e28d7264e0a927bcf756
-Content-Type: application/json
-
-{
-    "title": "Updated 14-Day Fat Loss Plan",
-    "duration": 15,
-    "steps": [
-        "Start with 15 minutes of cardio daily",
-        "Include more fiber-rich foods"
-    ],
-    "exercises": [
-        {
-            "name": "Plank",
-            "type": "Strength",
-            "duration": 3,
-            "repetitions": 1,
-            "sets": 3
-        }
-    ]
-}
-
-
-###delete plan
-DELETE http://localhost:4000/plan-api/plans/67d42d7edd6eceead72e4a16
-
 
 
 ###get all products
