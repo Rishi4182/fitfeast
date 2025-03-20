@@ -40,7 +40,9 @@ function Product(props) {
       // Fetch updated user data
       const rep2 = await axios.get(`http://localhost:4000/user-api/users/${currentUser.email}`);
       rep2.data.payload.cost = rep2.data.payload.cost + temp 
+      await axios.put(`http://localhost:4000/user-api/users/${rep3.data.payload._id}`, {cost:rep2.data.payload.cost})
       setCurrentUser(rep2.data.payload)
+      console.log(rep2.data.payload)
     }
     
 
