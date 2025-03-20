@@ -9,6 +9,7 @@ import Signin from './Components/Common/Signin'
 import Signup from './Components/Common/Signup'
 import UserProfile from './Components/User/UserProfile'
 import UserContext from './Contexts/UserContext'
+import Products from './Components/Cart/Products'
 // import App from './App.jsx'
 
 const browserRouterObj = createBrowserRouter([
@@ -19,6 +20,10 @@ const browserRouterObj = createBrowserRouter([
       {
         path: "", 
         element: <Home/>
+      },
+      {
+        path:"products",
+        element:<Products/>
       },
       {
         path: "signin", 

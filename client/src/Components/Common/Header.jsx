@@ -33,6 +33,16 @@ const Header = () => {
           </Link>
           <div>
             <ul className='text-white d-flex justify-content-center list-unstyled'>
+              <li>
+                <Link to='' className='me-4'>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to='products' className='me-4'>
+                  Products
+                </Link>
+              </li>
               {!isSignedIn?(
                 <>
                 <li>
