@@ -6,7 +6,7 @@ import axios from 'axios'
 
 function Home() {
   const {currentUser , setCurrentUser}=useContext(userContextObj)
-
+  // console.log(currentUser)
   const {isSignedIn , user , isLoaded}=useUser()
   const [error , setError]=useState("")
   const navigate = useNavigate()
@@ -24,13 +24,11 @@ function Home() {
             email:user?.emailAddresses[0].emailAddress,
             profileImageUrl:user?.imageUrl
           })
-          // console.log(currentUser)
-
+          
         } else {
-          // console.log(rep.data)
           setCurrentUser(rep.data.payload)
-          // console.log(rep.data.payload)
         }
+        // console.log(currentUser)
       })
       .catch(err=>console.log("Some Error occured", err))
       

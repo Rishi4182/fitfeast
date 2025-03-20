@@ -34,7 +34,7 @@ const Header = () => {
           <div>
             <ul className='text-white d-flex justify-content-center list-unstyled'>
               <li>
-                <Link to='' className='me-4'>
+                <Link to='' className='mx-4'>
                   Home
                 </Link>
               </li>
@@ -43,6 +43,15 @@ const Header = () => {
                   Products
                 </Link>
               </li>
+              {isSignedIn?(
+                <>
+                <li>
+                  <Link to='plans' className='me-4'>
+                    Plans
+                  </Link>
+                </li>
+                </>
+                ):(<p></p>)}
               {!isSignedIn?(
                 <>
                 <li>
@@ -58,6 +67,11 @@ const Header = () => {
                 </>
               ):(
                 <ul className='d-flex justify-content-center list-unstyled'>
+                <li>
+                <Link to='cart' className='me-4'>
+                  Cart
+                </Link>
+              </li>
                 <li>
                  <Link to='user-profile/:email' className='me-4'>
                  <div stlye={{position:'relative'}}>

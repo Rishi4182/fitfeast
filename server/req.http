@@ -17,11 +17,13 @@ Content-Type: application/json
     "firstName": "Rishi",
     "lastName": "Varma",
     "email": "rishivamra.d@gmail.com",
-    "profileImageUrl":"dfgfdgdf"
+    "profileImageUrl":"dfgfdgdf",
+    "userProducts":[{"title":"dkfkldsj"}],
+    "cost":0
 }
 
 ###
-PUT http://localhost:4000/user-api/users/67d540c27f6e86d5b1f9aa28
+PUT http://localhost:4000/user-api/users/67d679640753b18bead4e780
 Content-Type: application/json
 
 {
@@ -33,11 +35,16 @@ Content-Type: application/json
     "firstName": "Rishi",
     "lastName": "Varma",
     "email": "rishi@gmail.com",
-    "profileImageUrl":"dfgfdgdf"
+    "profileImageUrl":"dfgfdgdf",
+    "userProducts":[{"title":"dkfkldsj"}],
+    "cost":0
 }
 
 ###get all plans
-GET http://localhost:4000/plan-api/plans
+GET http://localhost:4000/plan-api/plan
+
+###get plan by calories
+GET http://localhost:4000/plan-api/plan/1600
 
 
 ###create new plan
@@ -45,57 +52,37 @@ POST http://localhost:4000/plan-api/plans
 Content-Type: application/json
 
 {
-    "userId": "67d3d844b6633e740db28d6b",
-    "title": "14-Day Fat Loss Plan",
-    "description": "A 14-day plan focused on cardio and balanced meals.",
-    "type": "combined",
-    "duration": 14,
-    "goals": ["fat loss", "stamina"],
-    "steps": [
-        "Start each morning with 10 minutes of stretching",
-        "Include lean protein in every meal",
-        "Hydrate well throughout the day"
-    ],
-    "exercises": [
-        {
-            "name": "Jumping Jacks",
-            "type": "Cardio",
-            "duration": 5,
-            "repetitions": 30,
-            "sets": 3
-        },
-        {
-            "name": "Squats",
-            "type": "Strength",
-            "duration": 10,
-            "repetitions": 20,
-            "sets": 3
-        }
-    ]
+    "id":1,
+    "calories":1600,
+    "veg":{
+        "breakfast":["idk"], 
+        "lunch":["idk"], 
+        "snacks":["idk"], 
+        "dinner":["idk"]
+    }, 
+    "nonveg":{
+        "breakfast":["idk"], 
+        "lunch":["idk"], 
+        "snacks":["idk"], 
+        "dinner":["idk"]
+    }
 }
 
-###update plan by Id
-PUT http://localhost:4000/plan-api/plans/67d4e28d7264e0a927bcf756
+
+###get all products
+GET http://localhost:4000/product-api/product
+
+###get product by id
+GET http://localhost:4000/product-api/product/67d6ea70fd31443e80d88123
+
+###create product
+POST http://localhost:4000/product-api/products
 Content-Type: application/json
 
 {
-    "title": "Updated 14-Day Fat Loss Plan",
-    "duration": 15,
-    "steps": [
-        "Start with 15 minutes of cardio daily",
-        "Include more fiber-rich foods"
-    ],
-    "exercises": [
-        {
-            "name": "Plank",
-            "type": "Strength",
-            "duration": 3,
-            "repetitions": 1,
-            "sets": 3
-        }
-    ]
+    "img":"https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwi79pPr5ZKMAxXzqGYCHWa3BxgYABALGgJzbQ&co=1&gclid=Cj0KCQjwkN--BhDkARIsAD_mnIquWTAFvKYnglKhbow9w3upY1q3f-PYW4VbfC1xBu_m3uhfGOpZXzEaArLUEALw_wcB&ohost=www.google.com&cid=CAESVeD2JZTPhYmltUNffpu4hWOT76rUEgLBE-bGmz4BZBai0c6NvWgl5NDdvAUPawJS8BZRu1p41heZYmvULFClQ72g0-TEgzvNDTmL9USJFBgn21jTFms&sig=AOD64_2iAejTu70b9oHGjQuZ6FPqkGEYzA&ctype=5&q=&ved=2ahUKEwjc8o7r5ZKMAxWAXGwGHTnvDFMQ9aACKAB6BAgJEDY&adurl=",
+    "title":"Creatine",
+    "description":"Boost up your enrgy",
+    "price":800,
+    "id":10
 }
-
-
-###delete plan
-DELETE http://localhost:4000/plan-api/plans/67d42d7edd6eceead72e4a16
