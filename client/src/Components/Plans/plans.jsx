@@ -1,4 +1,5 @@
 import { useContext ,useState} from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 import { userContextObj } from '../../Contexts/UserContext'
 import { useForm} from "react-hook-form";
 
@@ -6,7 +7,9 @@ function plans() {
     const {currentUser , setCurrentUser}=useContext(userContextObj)
     const [status, setStatus] = useState(0);
     const [chng, setchng] = useState(0);
+    const navigate = useNavigate();
     const [fl, setfl] = useState(0);
+    console.log(currentUser)
     let bmr=0,cal1=0,fat=0,cal2=0,final=0;
     const {
         register,
@@ -270,46 +273,52 @@ if(currentUser.desiredweight>currentUser.weight)
       }
     
   return (
-    <div>
+    currentUser.age === 0 || currentUser.height === 0 || currentUser.weight === 0 || currentUser.gender === "" || currentUser.desiredweight === 0? (<div>
+        <h1>Edit Your Profile</h1>
+        <p>Please add your age, height, gender, and weight to proceed with the plans form.</p>
+        <button className='btn btn-secondary text-white mt-auto' onClick={() => navigate(`/user-profile/${currentUser.email}`)}>
+      Edit Profile
+    </button>
+    </div>) : (<div>
     <div className="form">
-    <form onSubmit={handleSubmit(duration)}>
-    <div className='activity'>
-      <label>
-      Activity:
-        <select  onChange={handleActivity}>
-        <option value="">Select Activity</option>
-          <option value="Sedentary">Sedentary</option>
-          <option value="Lightly Active">Lightly Active</option>
-          <option value="Moderately Active">Moderately Active</option>
-          <option value="Very active">Very active</option>
-        </select>
-      </label>
-          </div>
-      <div className='duration mt-5 mb-2'>
-      <label>
-      Duration:
-        <select  onChange={handleDuration}>
-        <option value="">Select Duration</option>
-          <option value="1 week">1 week</option>
-          <option value="2 weeks">2 weeks</option>
-          <option value="1 month">1 month</option>
-          <option value="2 months">2 months</option>
-          <option value="3 months">3 months</option>
-        </select>
-      </label>
-          </div>
-      <button type="submit" className="btn btn-success">
-        DONE
-      </button>
-    </form>
-    {
-        status === 1 ? <div>
-             {showValues(chng,fl)}
-            </div> :<div></div>
+        <form onSubmit={handleSubmit(duration)}>
+            <div className='activity'>
+                <label>
+                    Activity:
+                    <select onChange={handleActivity}>
+                        <option value="">Select Activity</option>
+                        <option value="Sedentary">Sedentary</option>
+                        <option value="Lightly Active">Lightly Active</option>
+                        <option value="Moderately Active">Moderately Active</option>
+                        <option value="Very active">Very active</option>
+                    </select>
+                </label>
+            </div>
+            <div className='duration mt-5 mb-2'>
+                <label>
+                    Duration:
+                    <select onChange={handleDuration}>
+                        <option value="">Select Duration</option>
+                        <option value="1 week">1 week</option>
+                        <option value="2 weeks">2 weeks</option>
+                        <option value="1 month">1 month</option>
+                        <option value="2 months">2 months</option>
+                        <option value="3 months">3 months</option>
+                    </select>
+                </label>
+            </div>
+            <button type="submit" className="btn btn-success">
+                DONE
+            </button>
+        </form>
+        {
+            status === 1 ? <div>
+                {showValues(chng, fl)}
+            </div> : <div></div>
 
-    }
+        }
     </div>
-  </div>
+</div>)
   )
 
 }

@@ -1,6 +1,6 @@
 // import React from 'react'
 
-import { useContext ,useState} from 'react'
+import { useContext ,useState, useEffect} from 'react'
 import { userContextObj } from '../../Contexts/UserContext'
 import { useForm} from "react-hook-form";
 import axios from 'axios'
@@ -15,16 +15,18 @@ function UserProfile() {
     reset,
   } = useForm();
   const [gen, setGender] = useState("");
+  useEffect(() => {
+    if (currentUser?.gender) {
+      setGender(currentUser.gender);
+    }
+  }, [currentUser]);
   function handleChange(event){
      setGender(event.target.value)
   }
+
   async function adddetails(newuser) {
     // Determine gender correctly
     newuser.gender = gen;
-
-    console.log("User Data Before Update:", newuser);
-
-    
 
     try {
         // Check if user exists in DB
@@ -40,9 +42,10 @@ function UserProfile() {
 
         // Fetch updated user data
         const rep2 = await axios.get(`http://localhost:4000/user-api/users/${newuser.email}`);
-        setCurrentUser(rep2.data.payload);
+        setCurrentUser(rep2.data.payload)
+        console.log(currentUser)
 
-        console.log("Updated User Data:", rep2.data.payload);
+        // console.log("Updated User Data:", currentUser);
     } catch (error) {
         console.error("Error updating user:", error);
     }
@@ -93,14 +96,35 @@ function UserProfile() {
         disabled/>
       </div>
       <div className='gender'>
-      <label>
-      Gender:
-        <select value={currentUser.gender} onChange={handleChange}>
-          <option value="">Select...</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
-      </label>
+      <label className="form-label">
+          Gender
+        </label>
+          <div className="form-check">
+            <input 
+              className="form-check-input" 
+              type="radio" 
+              name="gender" 
+              onChange={handleChange} 
+              value="Male" 
+              checked={gen === "Male"} 
+            />
+            <label className="form-check-label">
+              Male
+            </label>
+          </div>
+          <div className="form-check">
+            <input 
+              className="form-check-input" 
+              type="radio" 
+              name="gender" 
+              onChange={handleChange} 
+              value="Female" 
+              checked={gen === "Female"} 
+            />
+            <label className="form-check-label">
+              Female
+            </label>
+          </div>  
           </div>
       <div className='age'>
         <label htmlFor="age" className="form-label">Age</label>
