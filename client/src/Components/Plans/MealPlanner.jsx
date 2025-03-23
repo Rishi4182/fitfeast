@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { filtercontextObj } from '../../Contexts/FilterContext'
 import axios from 'axios';
 import MealDisplay from './MealDisplay';
+import './styles.css'
 
 
 function MealPlanner() {

@@ -4,6 +4,8 @@ import { userContextObj } from '../../Contexts/UserContext'
 import { useForm } from "react-hook-form";
 import MealPlanner from './MealPlanner';
 import Filter from './Filter';
+import SplitCalories from './SplitCalories';
+
 
 function Plan() {
     const { currentUser, setCurrentUser } = useContext(userContextObj)
@@ -12,6 +14,8 @@ function Plan() {
     const navigate = useNavigate();
     const [fl, setfl] = useState(0);
     console.log(chng, fl)
+
+
     let bmr = 0, cal1 = 0, fat = 0, cal2 = 0, final = 0
     const {
         register,
@@ -157,97 +161,99 @@ function Plan() {
         setfl(final)
     }
 
-    function showValues(chng, fl) {
-        if ((fl - chng) > 3000) {
-            return (
-                <div>
-                    <p>It is not recommended for you to gain weight.</p>
-                </div>);
-        }
-        else if (currentUser.desiredweight > currentUser.weight) {
-            if (fl > 3500) {
-                return (
-                    <div>
-                        <p>It is dangerous to gain too much weight in short periods of time.We suggest you not to gain so much weight in a short period of time.</p>
-                    </div>
-                );
-            }
-            else {
-                return (
-                    <div>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Activity</th>
-                                    <th scope="col">Time Period</th>
-                                    <th scope="col">Calories Surplus</th>
-                                    <th scope="col">Calories Per Day</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row"></th>
-                                    <td>{activity}</td>
-                                    <td>{dur}</td>
-                                    <td>{chng}</td>
-                                    <td>{fl}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div>
-                            <Filter/>
-                            <MealPlanner/>
-                        </div>
-                    </div>
-                );
-            }
-        }
-        else {
-            if ((fl + chng) < 1900) {
-                return (
-                    <div>
-                        <p>It is not recommended for you to loose weight.</p>
-                    </div>);
-            }
-            else if (chng > 1000 || fl < 1500) {
-                return (
-                    <div>
-                        <p>It is dangerous to loose too much weight in short periods of time.We suggest you not to loose so much weight in a short period of time.</p>
-                    </div>);
-            }
-            else {
-                return (
-                    <div>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Activity</th>
-                                    <th scope="col">Time Period</th>
-                                    <th scope="col">Calories Defeict</th>
-                                    <th scope="col">Calories Per Day</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row"></th>
-                                    <td>{activity}</td>
-                                    <td>{dur}</td>
-                                    <td>{chng}</td>
-                                    <td>{fl}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div>
-                            <Filter/>
-                            <MealPlanner/>
-                        </div>
-                    </div>
-                );
-            }
-        }
-    }
+    // function showValues(chng, fl) {
+    //     if ((fl - chng) > 3000) {
+    //         return (
+    //             <div>
+    //                 <p>It is not recommended for you to gain weight.</p>
+    //             </div>);
+    //     }
+    //     else if (currentUser.desiredweight > currentUser.weight) {
+    //         if (fl > 3500) {
+    //             return (
+    //                 <div>
+    //                     <p>It is dangerous to gain too much weight in short periods of time.We suggest you not to gain so much weight in a short period of time.</p>
+    //                 </div>
+    //             );
+    //         }
+    //         else {
+    //             return (
+    //                 <div>
+    //                     <table className="table">
+    //                         <thead>
+    //                             <tr>
+    //                                 <th scope="col"></th>
+    //                                 <th scope="col">Activity</th>
+    //                                 <th scope="col">Time Period</th>
+    //                                 <th scope="col">Calories Surplus</th>
+    //                                 <th scope="col">Calories Per Day</th>
+    //                             </tr>
+    //                         </thead>
+    //                         <tbody>
+    //                             <tr>
+    //                                 <th scope="row"></th>
+    //                                 <td>{activity}</td>
+    //                                 <td>{dur}</td>
+    //                                 <td>{chng}</td>
+    //                                 <td>{fl}</td>
+    //                             </tr>
+    //                         </tbody>
+    //                     </table>
+    //                     <div>
+    //                         {/* <SplitCalories fl={fl}/> */}
+    //                         <Filter/>
+    //                         <MealPlanner/>
+    //                     </div>
+    //                 </div>
+    //             );
+    //         }
+    //     }
+    //     else {
+    //         if ((fl + chng) < 1900) {
+    //             return (
+    //                 <div>
+    //                     <p>It is not recommended for you to loose weight.</p>
+    //                 </div>);
+    //         }
+    //         else if (chng > 1000 || fl < 1500) {
+    //             return (
+    //                 <div>
+    //                     <p>It is dangerous to loose too much weight in short periods of time.We suggest you not to loose so much weight in a short period of time.</p>
+    //                 </div>);
+    //         }
+    //         else {
+    //             return (
+    //                 <div>
+    //                     <table className="table">
+    //                         <thead>
+    //                             <tr>
+    //                                 <th scope="col"></th>
+    //                                 <th scope="col">Activity</th>
+    //                                 <th scope="col">Time Period</th>
+    //                                 <th scope="col">Calories Defeict</th>
+    //                                 <th scope="col">Calories Per Day</th>
+    //                             </tr>
+    //                         </thead>
+    //                         <tbody>
+    //                             <tr>
+    //                                 <th scope="row"></th>
+    //                                 <td>{activity}</td>
+    //                                 <td>{dur}</td>
+    //                                 <td>{chng}</td>
+    //                                 <td>{fl}</td>
+    //                             </tr>
+    //                         </tbody>
+    //                     </table>
+    //                     <div>
+    //                         {/* <SplitCalories fl={fl}/> */}
+    //                         <Filter/>
+    //                         <MealPlanner/>
+    //                     </div>
+    //                 </div>
+    //             );
+    //         }
+    //     }
+    // }
 
     return (
         currentUser.age === 0 || currentUser.height === 0 || currentUser.weight === 0 || currentUser.gender === "" || currentUser.desiredweight === 0 ? (<div>
@@ -288,12 +294,81 @@ function Plan() {
                         DONE
                     </button>
                 </form>
-                {
-                    status === 1 ? <div>
-                        {showValues(chng, fl)}
-                    </div> : <div></div>
-
-                }
+                {status === 1 ? (
+      (fl - chng) > 3000 ? (
+        <div>
+          <p>It is not recommended for you to gain weight.</p>
+        </div>
+      ) : currentUser.desiredweight > currentUser.weight ? (
+        fl > 3500 ? (
+          <div>
+            <p>It is dangerous to gain too much weight in short periods of time. We suggest you not to gain so much weight in a short period of time.</p>
+          </div>
+        ) : (
+          <div>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Activity</th>
+                  <th scope="col">Time Period</th>
+                  <th scope="col">Calories Surplus</th>
+                  <th scope="col">Calories Per Day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"></th>
+                  <td>{activity}</td>
+                  <td>{dur}</td>
+                  <td>{chng}</td>
+                  <td>{fl}</td>
+                </tr>
+              </tbody>
+            </table>
+            <SplitCalories fl={fl}/>
+            <Filter/>
+            <MealPlanner/>
+          </div>
+        )
+      ) : (fl + chng) < 1900 ? (
+        <div>
+          <p>It is not recommended for you to lose weight.</p>
+        </div>
+      ) : chng > 1000 || fl < 1500 ? (
+        <div>
+          <p>It is dangerous to lose too much weight in short periods of time. We suggest you not to lose so much weight in a short period of time.</p>
+        </div>
+      ) : (
+        <div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Activity</th>
+                <th scope="col">Time Period</th>
+                <th scope="col">Calories Deficit</th>
+                <th scope="col">Calories Per Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"></th>
+                <td>{activity}</td>
+                <td>{dur}</td>
+                <td>{chng}</td>
+                <td>{fl}</td>
+              </tr>
+            </tbody>
+          </table>
+          <SplitCalories fl={fl}/>
+          <Filter/>
+            <MealPlanner/>
+        </div>
+      )
+    ) : (
+      <div></div>
+    )}
             </div>
         </div>)
     )
