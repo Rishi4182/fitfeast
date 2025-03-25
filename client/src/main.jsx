@@ -11,8 +11,9 @@ import UserProfile from './Components/User/UserProfile'
 import UserContext from './Contexts/UserContext'
 import Products from './Components/Cart/Products'
 import Cart from './Components/Cart/Cart'
-import Plans from './Components/Plans/plans'
+import Plan from './Components/Plans/Plan'
 import './App.css'
+import FilterContext from './Contexts/FilterContext'
 // import App from './App.jsx'
 
 const browserRouterObj = createBrowserRouter([
@@ -30,7 +31,7 @@ const browserRouterObj = createBrowserRouter([
       },
       {
         path:"plans",
-        element:<Plans/>
+        element:<Plan/>
       },
       {
         path:"cart",
@@ -57,7 +58,9 @@ const browserRouterObj = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <UserContext>
-      <RouterProvider router = {browserRouterObj}/>
+      <FilterContext>
+        <RouterProvider router = {browserRouterObj}/>
+      </FilterContext>
       {/* <App /> */}
       </UserContext>
   </StrictMode>,

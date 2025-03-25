@@ -7,7 +7,7 @@ function Cart() {
 
     const {currentUser, setCurrentUser} = useContext(userContextObj);
     let userProd = currentUser.userProducts
-    // console.log(userProd)
+    // console.log(currentUser)
 
   return (
     <div>
