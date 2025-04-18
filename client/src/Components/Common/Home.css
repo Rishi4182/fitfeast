@@ -1,0 +1,238 @@
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 0;
+    gap: 30px;
+  }
+  
+  .hero-content {
+    flex: 1;
+  }
+  
+  .hero-content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .hero-content p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .hero-image {
+    flex: 1;
+  }
+  
+  .hero-image img {
+    max-width: 100%;
+    width: 450px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cta-button {
+    padding: 12px 24px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #3367d6;
+  }
+  
+  .featured-section {
+    padding: 60px 0;
+  }
+  
+  .featured-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 32px;
+    color: #333;
+  }
+  
+  .featured-products {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .product-card {
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    transition: transform 0.3s;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .product-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .product-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .product-card .price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4285f4;
+    margin-bottom: 15px;
+  }
+  
+  .view-button {
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1px solid #4285f4;
+    color: #4285f4;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .view-button:hover {
+    background-color: #4285f4;
+    color: white;
+  }
+  
+  .about-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin: 40px 0;
+  }
+  
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .about-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .about-content p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .cta-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .secondary-button {
+    padding: 12px 24px;
+    background-color: #34a853;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .secondary-button:hover {
+    background-color: #2d8d46;
+  }
+  
+  .text-button {
+    background: none;
+    border: none;
+    color: #4285f4;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .text-button:hover {
+    text-decoration: underline;
+  }
+  
+  .testimonials-section {
+    padding: 60px 0;
+  }
+  
+  .testimonials-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 32px;
+    color: #333;
+  }
+  
+  .testimonials {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+  }
+  
+  .testimonial-card {
+    flex: 1;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+  
+  .testimonial-card .quote {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  
+  .testimonial-card .author {
+    font-weight: bold;
+    color: #4285f4;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-section {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+    
+    .featured-products {
+      flex-direction: column;
+    }
+    
+    .testimonials {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .testimonial-card {
+      max-width: 100%;
+    }
+  }

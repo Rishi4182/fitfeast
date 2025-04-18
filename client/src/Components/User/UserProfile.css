@@ -1,0 +1,118 @@
+.form {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .form form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .form form .firstname,
+  .form form .lastname,
+  .form form .email,
+  .form form .gender,
+  .form form .age,
+  .form form .height,
+  .form form .weight,
+  .form form .desiredweight {
+    margin-bottom: 20px;
+  }
+  
+  .form form .email {
+    grid-column: span 2;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: #4e9af1;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(78, 154, 241, 0.2);
+  }
+  
+  .form-control:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .form-check {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .form-check-input {
+    margin-right: 6px;
+  }
+  
+  .gender {
+    grid-column: span 2;
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    grid-column: span 2;
+    background-color: #4e9af1;
+    color: white;
+    border: none;
+    padding: 14px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .btn:hover {
+    background-color: #3a7fd5;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+  }
+  
+  @media (max-width: 768px) {
+    .form form {
+      grid-template-columns: 1fr;
+    }
+    
+    .form form .email,
+    .form form .gender,
+    .btn {
+      grid-column: span 1;
+    }
+    
+    .form {
+      margin: 20px;
+      padding: 20px;
+    }
+  }
+  
+  .form-control.is-invalid {
+    border-color: #dc3545;
+}

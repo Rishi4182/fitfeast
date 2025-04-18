@@ -7,13 +7,12 @@ function Cart() {
 
     const {currentUser, setCurrentUser} = useContext(userContextObj);
     let userProd = currentUser.userProducts
-    // console.log(currentUser)
 
   return (
     <div>
         {
              userProd.length === 0 ? (
-             <h1>Your Cart is Empty</h1>
+             <h1 className='mt-5'>Your Cart is Empty</h1>
             ) : (
              <div className='container mx-auto mt-5 mb-2'>
                 <h1>Total Cost : ${currentUser.cost}</h1>

@@ -1,0 +1,133 @@
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: calc(100vh - 120px); */
+    padding: 20px;
+  }
+  
+  .auth-content {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    /* min-height: 600px; */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .auth-panel {
+    flex: 1;
+    padding: 40px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .auth-header {
+    margin-bottom: 30px;
+  }
+  
+  .auth-header h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .auth-header p {
+    color: #666;
+    font-size: 16px;
+  }
+  
+  .clerk-container {
+    flex: 1;
+    margin: auto;
+  }
+  
+  .clerk-container :global(.cl-card) {
+    box-shadow: none;
+    border: none;
+  }
+  
+  .auth-footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .auth-footer p {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .auth-link {
+    color: #4285f4;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .auth-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* .auth-image {
+    flex: 1;
+    background-image: url('../../assets/class-1.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  } */
+  /* 
+  .signup-image {
+    background-image: url('../../assets/class-1.jpg');
+  } */
+  
+  /* .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+    color: white;
+  } */
+  
+  .image-overlay h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .image-overlay p {
+    font-size: 16px;
+    max-width: 300px;
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 768px) {
+    .auth-content {
+      flex-direction: column;
+    }
+    
+    .auth-panel {
+      padding: 30px 20px;
+    }
+  }
+  
+  :global(.cl-rootBox) {
+    width: 100%;
+  }
+  
+  :global(.cl-card) {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  :global(.cl-footer) {
+    display: none;
+  }

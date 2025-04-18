@@ -19,6 +19,15 @@ planApp.get("/plan/:calories", expressAsyncHandler(async(req, res)=> {
     }
 }))
 
+planApp.get("/plan/:id", expressAsyncHandler(async(req, res) => {
+    const plans = await Plan.find({ userId: req.params.id });
+    if (!plans || plans.length === 0) {
+        res.send({ message: "Plans Not Found" });
+    } else {
+        res.send({ message: "Plans Found", payload: plans });
+    }
+}));
+
 // create a new plan in database
 planApp.post("/plans", expressAsyncHandler(async(req, res)=> {
     const plan = req.body;
