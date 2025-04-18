@@ -17,7 +17,6 @@ function SavedPlan() {
         }
         fetchPlan();
     }, []);
-    console.log(plans)
 
     return (
         <div className="container mx-auto mt-4 mb-5">
