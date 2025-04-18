@@ -43,7 +43,6 @@ function UserProfile() {
         // Fetch updated user data
         const rep2 = await axios.get(`http://localhost:4000/user-api/users/${newuser.email}`);
         setCurrentUser(rep2.data.payload)
-        console.log(currentUser)
 
         // console.log("Updated User Data:", currentUser);
     } catch (error) {

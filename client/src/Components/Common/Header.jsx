@@ -68,6 +68,11 @@ const Header = () => {
               ):(
                 <ul className='d-flex justify-content-center list-unstyled'>
                 <li>
+                <Link to='saved-plans' className='me-4'>
+                  View Saved Plans
+                </Link>
+              </li>
+                <li>
                 <Link to='cart' className='me-4'>
                   Cart
                 </Link>
