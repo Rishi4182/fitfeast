@@ -1,17 +1,18 @@
-import { useContext, useState } from 'react'
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { userContextObj } from '../../Contexts/UserContext'
+import { userContextObj } from '../../Contexts/UserContext';
 import { useForm } from "react-hook-form";
 import Filter from './Filter';
-import MealDisplay from './MealDisplay';
 import axios from 'axios';
 import MealPlanner from './MealPlanner';
-import SplitCalories from './SplitCalories';
+import StickyMacroTracker from './StickyMacroTracker';
+import MealDisplay from './MealDisplay';
+import SelectedMealsDrawer from './SelectedMealsDrawer';
+import FloatingActionButton from './FloatingActionButton';
 import './plan.css';
 
-
 function Plan() {
-    const { currentUser, setCurrentUser } = useContext(userContextObj)
+    const { currentUser, setCurrentUser } = useContext(userContextObj);
     const [status, setStatus] = useState(0);
     const [chng, setchng] = useState(0);
     const [fl, setfl] = useState(0);
@@ -20,16 +21,14 @@ function Plan() {
     const [selectedMeals, setSelectedMeals] = useState([]);
     const [planSaved, setPlanSaved] = useState(false);
     const [validationResult, setValidationResult] = useState({ isValid: true, message: "" });
-
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const navigate = useNavigate();
 
     const handleDuration = (e) => setDuration(e.target.value);
     const handleActivity = (e) => setActivity(e.target.value);
 
-    const {
-        handleSubmit,
-    } = useForm();
+    const { handleSubmit } = useForm();
 
     const calculatePlan = () => {
         if (!durationVal || !activityVal) return;
@@ -70,46 +69,70 @@ function Plan() {
         setValidationResult(validation);
     };
 
-    const handleMealSelection = (meals) => {
-        setSelectedMeals(meals);
+    // Update handle meal selection to fix the duplicate selection issue
+    const handleMealSelection = (meal) => {
+        if (meal.quantity === 0) {
+            // Remove meal by uniqueKey (meal ID + meal type combination)
+            setSelectedMeals(selectedMeals.filter((m) => 
+                !(m._id === meal._id && m.mealTypeKey === meal.mealTypeKey)
+            ));
+        } else {
+            // Find meal by ID and meal type
+            const existingMealIndex = selectedMeals.findIndex((m) => 
+                m._id === meal._id && m.mealTypeKey === meal.mealTypeKey
+            );
+            
+            if (existingMealIndex !== -1) {
+                // Update existing meal
+                const updatedMeals = [...selectedMeals];
+                updatedMeals[existingMealIndex] = meal;
+                setSelectedMeals(updatedMeals);
+            } else {
+                // Add new meal
+                setSelectedMeals([...selectedMeals, meal]);
+            }
+        }
     };
 
     const groupMealsByType = () => {
         const groupedVeg = {
-            breakfast : [], 
-            lunch: [], 
-            snacks: [], 
-            dinner : [], 
+            breakfast: [],
+            lunch: [],
+            snacks: [],
+            dinner: [],
         };
         const groupedNonVeg = {
-            breakfast: [], 
-            lunch: [], 
-            snacks: [], 
+            breakfast: [],
+            lunch: [],
+            snacks: [],
             dinner: [],
-        }
+        };
 
         selectedMeals.forEach((meal) => {
+            const quantity = meal.quantity || 1;
+            const mealName = `${meal.name} ${quantity > 1 ? `x${quantity}` : ''}`;
+            
             meal.type.forEach((type) => {
                 if (type === "Non-vegetarian") {
                     meal.mealType.forEach((type) => {
-                        if (type.toLowerCase().includes("breakfast")) groupedNonVeg.breakfast.push(meal.name);
-                        if (type.toLowerCase().includes("lunch")) groupedNonVeg.lunch.push(meal.name);
-                        if (type.toLowerCase().includes("snack")) groupedNonVeg.snacks.push(meal.name);
-                        if (type.toLowerCase().includes("dinner")) groupedNonVeg.dinner.push(meal.name);
+                        if (type.toLowerCase().includes("breakfast")) groupedNonVeg.breakfast.push(mealName);
+                        if (type.toLowerCase().includes("lunch")) groupedNonVeg.lunch.push(mealName);
+                        if (type.toLowerCase().includes("snack")) groupedNonVeg.snacks.push(mealName);
+                        if (type.toLowerCase().includes("dinner")) groupedNonVeg.dinner.push(mealName);
                     });
-                } else if (type === "Vegetarian") {
+                } else if (type === "Vegetarian" || type === "Vegan") {
                     meal.mealType.forEach((type) => {
-                        if (type.toLowerCase().includes("breakfast")) groupedVeg.breakfast.push(meal.name);
-                        if (type.toLowerCase().includes("lunch")) groupedVeg.lunch.push(meal.name);
-                        if (type.toLowerCase().includes("snack")) groupedVeg.snacks.push(meal.name);
-                        if (type.toLowerCase().includes("dinner")) groupedVeg.dinner.push(meal.name);
+                        if (type.toLowerCase().includes("breakfast")) groupedVeg.breakfast.push(mealName);
+                        if (type.toLowerCase().includes("lunch")) groupedVeg.lunch.push(mealName);
+                        if (type.toLowerCase().includes("snack")) groupedVeg.snacks.push(mealName);
+                        if (type.toLowerCase().includes("dinner")) groupedVeg.dinner.push(mealName);
                     });
                 }
             });
         });
 
-        return {groupedVeg, groupedNonVeg};
-    }
+        return { groupedVeg, groupedNonVeg };
+    };
 
     const getMacroMatchStatus = () => {
         const proteinTarget = Math.round((fl * 0.3) / 4);
@@ -119,31 +142,33 @@ function Plan() {
         let totalProtein = 0, totalCarbs = 0, totalFats = 0;
       
         selectedMeals.forEach(meal => {
-          totalProtein += meal.proteinPer100g || 0;
-          totalCarbs += meal.carbsPer100g || 0;
-          totalFats += meal.fatsPer100g || 0;
+            const quantity = meal.quantity || 1;
+            totalProtein += (meal.proteinPer100g || 0) * quantity;
+            totalCarbs += (meal.carbsPer100g || 0) * quantity;
+            totalFats += (meal.fatsPer100g || 0) * quantity;
         });
       
         return {
-          proteinOK: totalProtein >= 0.9 * proteinTarget && totalProtein <= 1.1 * proteinTarget,
-          carbsOK: totalCarbs >= 0.85 * carbsTarget && totalCarbs <= 1.1 * carbsTarget,
-          fatsOK: totalFats >= 0.8 * fatsTarget && totalFats <= 1.05 * fatsTarget,
-          protein: { total: Math.round(totalProtein), target: proteinTarget },
-          carbs: { total: Math.round(totalCarbs), target: carbsTarget },
-          fats: { total: Math.round(totalFats), target: fatsTarget }
+            proteinOK: totalProtein >= 0.9 * proteinTarget && totalProtein <= 1.1 * proteinTarget,
+            carbsOK: totalCarbs >= 0.85 * carbsTarget && totalCarbs <= 1.1 * carbsTarget,
+            fatsOK: totalFats >= 0.8 * fatsTarget && totalFats <= 1.05 * fatsTarget,
+            protein: { total: Math.round(totalProtein), target: proteinTarget },
+            carbs: { total: Math.round(totalCarbs), target: carbsTarget },
+            fats: { total: Math.round(totalFats), target: fatsTarget }
         };
     };
+    
     const matchStatus = getMacroMatchStatus();
     const allOK = matchStatus.proteinOK && matchStatus.carbsOK && matchStatus.fatsOK;
 
     const savePlan = async () => {
-        const {groupedVeg, groupedNonVeg} = groupMealsByType();
+        const { groupedVeg, groupedNonVeg } = groupMealsByType();
         const planData = {
-            userId: currentUser._id, 
-            calories: fl, 
+            userId: currentUser._id,
+            calories: fl,
             veg: groupedVeg,
             nonveg: groupedNonVeg,
-            duration: durationVal, 
+            duration: durationVal,
             extra: chng,
             activity: activityVal
         };
@@ -155,16 +180,22 @@ function Plan() {
             console.log("Error saving plan: ", err);
         }
     };
+    
+    const navigateToSavedPlans = () => {
+        navigate('/saved-plans');
+    };
 
     if (currentUser.age === 0 || currentUser.height === 0 || currentUser.weight === 0 || currentUser.gender === "" || currentUser.desiredweight === 0) {
         return (
-          <div>
-            <h1>Edit Your Profile</h1>
-            <p>Please add your age, height, gender, and weight to proceed with the plans form.</p>
-            <button className='btn btn-secondary' onClick={() => navigate(`/user-profile/${currentUser.email}`)}>
-              Edit Profile
-            </button>
-          </div>
+            <div className="container mx-auto my-5 text-center">
+                <div className="card shadow-sm border-0 p-5">
+                    <h2 className="mb-4">Complete Your Profile</h2>
+                    <p className="mb-4">Please add your age, height, gender, and weight to create a personalized fitness plan.</p>
+                    <button className="btn btn-primary px-4 py-2" onClick={() => navigate(`/user-profile/${currentUser.email}`)}>
+                        Edit Profile
+                    </button>
+                </div>
+            </div>
         );
     }
 
@@ -273,52 +304,93 @@ function Plan() {
                                 </div>
                             </div>
 
-                            <SplitCalories fl={fl} selectedMeals={selectedMeals} />
+                            {/* Sticky macro tracker */}
+                            <StickyMacroTracker fl={fl} selectedMeals={selectedMeals} matchStatus={matchStatus} />
                             
+                            {/* Only show Save Plan button when all macros are OK */}
                             {selectedMeals.length > 0 && (
-                                <div className="card shadow-sm border-0 mb-4">
+                                <div className="card shadow-sm border-0 mb-4 save-plan-card">
                                     <div className="card-body p-4 text-center">
-                                        <button
-                                            className={`btn ${allOK ? 'btn-primary' : 'btn-danger'} px-4 py-2`}
-                                            onClick={savePlan}
-                                            disabled={planSaved}
-                                        >
-                                            {planSaved ? 'Plan Saved' : 'Save My Plan'}
-                                        </button>
-                                        
-                                        {!allOK && !planSaved && (
-                                            <p className="text-danger mt-3 mb-0">
-                                                <i className="bi bi-info-circle-fill me-2"></i>
-                                                Your macro values are not within healthy range. Please adjust your meals.
-                                            </p>
+                                        {allOK && !planSaved && (
+                                            <button
+                                                className="btn btn-primary px-4 py-2"
+                                                onClick={savePlan}
+                                            >
+                                                Save My Plan
+                                            </button>
                                         )}
                                         
                                         {planSaved && (
-                                            <p className="text-success mt-3 mb-0">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Plan saved successfully!
-                                            </p>
+                                            <div className="d-flex flex-column align-items-center">
+                                                <p className="text-success mb-3">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Plan saved successfully!
+                                                </p>
+                                                <button
+                                                    className="btn btn-success px-4 py-2"
+                                                    onClick={navigateToSavedPlans}
+                                                >
+                                                    <i className="bi bi-list-check me-2"></i>
+                                                    Show Saved Plans
+                                                </button>
+                                            </div>
+                                        )}
+                                        
+                                        {!allOK && !planSaved && (
+                                            <div className="alert alert-warning mb-0">
+                                                <i className="bi bi-info-circle-fill me-2"></i>
+                                                Your macro values are not within healthy range. Please adjust your meals to save your plan.
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                             )}
                             
-                            <div className="card shadow-sm border-0 mb-4">
+                            <div className="card shadow-sm border-0 mb-5">
                                 <div className="card-header bg-white border-bottom-0 pt-3">
                                     <h3 className="h5 text-center mb-0">Meal Selection</h3>
                                 </div>
                                 <div className="card-body px-4 pb-4 pt-2">
                                     <Filter />
-                                    <MealPlanner selectedMeals={selectedMeals} onSelectMeals={handleMealSelection} caloriesTarget={fl} />
+                                    
+                                    {/* Display meals with quantity controls */}
+                                    {status === 1 && (
+                                        <div className="mt-4">
+                                            {["Breakfast", "Lunch", "Snack", "Dinner"].map((mealType) => (
+                                                <MealDisplay
+                                                    key={mealType}
+                                                    mealType={mealType}
+                                                    mealss={MealPlanner.getFilteredMeals(mealType, fl)}
+                                                    onSelectMeal={handleMealSelection}
+                                                    selectedMeals={selectedMeals}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
+                            
+                            {/* Floating action button */}
+                            <FloatingActionButton 
+                                onClick={() => setDrawerOpen(true)}
+                                selectedMeals={selectedMeals}
+                            />
+                            
+                            {/* Selected meals drawer */}
+                            <SelectedMealsDrawer
+                                isOpen={drawerOpen}
+                                onClose={() => setDrawerOpen(false)}
+                                selectedMeals={selectedMeals}
+                                onUpdateMeal={handleMealSelection}
+                                matchStatus={matchStatus}
+                                allOK={allOK}
+                            />
                         </div>
                     )}
                 </>
             )}
         </div>
     );
-
 }
 
 export default Plan;
