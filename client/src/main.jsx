@@ -14,6 +14,8 @@ import Cart from './Components/Cart/Cart'
 import Plan from './Components/Plans/Plan'
 import './App.css'
 import FilterContext from './Contexts/FilterContext'
+import MealPlanner from './Components/Plans/MealPlanner'
+import PlanContext from './Contexts/PlanContext'
 // import App from './App.jsx'
 
 const browserRouterObj = createBrowserRouter([
@@ -32,6 +34,10 @@ const browserRouterObj = createBrowserRouter([
       {
         path:"plans",
         element:<Plan/>
+      },
+      {
+        path:"meals",
+        element:<MealPlanner/>
       },
       {
         path:"cart",
@@ -59,7 +65,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <UserContext>
       <FilterContext>
-        <RouterProvider router = {browserRouterObj}/>
+        <PlanContext>
+          <RouterProvider router = {browserRouterObj}/>
+        </PlanContext>
       </FilterContext>
       {/* <App /> */}
       </UserContext>
