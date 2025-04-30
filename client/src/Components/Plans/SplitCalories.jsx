@@ -1,45 +1,81 @@
-import React from 'react'
-import { userContextObj } from '../../Contexts/UserContext'
-import { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
+import { userContextObj } from '../../Contexts/UserContext';
 
-function SplitCalories(props) { // fl
+function SplitCalories({ fl, selectedMeals }) {
+  const { currentUser } = useContext(userContextObj);
+  const [totals, setTotals] = useState({ protein: 0, carbs: 0, fats: 0 });
+  const [targets, setTargets] = useState({
+    protein: 0,
+    carbs: 0,
+    fats: 0,
+    proteinRange: [0, 0],
+    carbsRange: [0, 0],
+    fatsRange: [0, 0]
+  });
 
-    const { currentUser, setCurrentUser } = useContext(userContextObj)
-    function splitCalories(calories, macroSplit) {
-        const protein = (calories * macroSplit.protein) / 4;
-        const carbs = (calories * macroSplit.carbs) / 4;
-        const fats = (calories * macroSplit.fats) / 9;
-    
-        return {
-            protein: Math.round(protein),
-            carbs: Math.round(carbs),
-            fats: Math.round(fats)
-        };
-    }
-    // const [macroSplit, setMacroSplit] = useState({
-    //     protein:0.30,
-    //     carbohydrates:0.40,
-    //     fats:0.30
-    // })
-    // if (currentUser.desiredweight > currentUser.weight) {
-    //     setMacroSplit({
-    //         protein:0.30,
-    //         carbohydrates:0.50,
-    //         fats:0.20 
-    //     })
-    // } else if (currentUser.desiredweight < currentUser.weight) {
-    //     setMacroSplit({
-    //         protein:0.40,
-    //         carbohydrates:0.40,
-    //         fats:0.30 
-    //     })
-    // }
-    // const finalMacroSplit = splitCalories(props.fl, macroSplit)
-    // console.log(finalMacroSplit)
+  useEffect(() => {
+    const proteinTarget = Math.round((fl * 0.3) / 4);
+    const carbsTarget = Math.round((fl * 0.5) / 4);
+    const fatsTarget = Math.round((fl * 0.2) / 9);
 
-    return (
-        <div>SplitCalories</div>
-    )
+    setTargets({
+      protein: proteinTarget,
+      carbs: carbsTarget,
+      fats: fatsTarget,
+      proteinRange: [Math.round(proteinTarget * 0.9), Math.round(proteinTarget * 1.1)],
+      carbsRange: [Math.round(carbsTarget * 0.85), Math.round(carbsTarget * 1.1)],
+      fatsRange: [Math.round(fatsTarget * 0.8), Math.round(fatsTarget * 1.05)]
+    });
+  }, [fl]);
+
+  useEffect(() => {
+    let totalProtein = 0, totalCarbs = 0, totalFats = 0;
+    selectedMeals.forEach(meal => {
+      totalProtein += meal.proteinPer100g || 0;
+      totalCarbs += meal.carbsPer100g || 0;
+      totalFats += meal.fatsPer100g || 0;
+    });
+    setTotals({
+      protein: Math.round(totalProtein),
+      carbs: Math.round(totalCarbs),
+      fats: Math.round(totalFats)
+    });
+  }, [selectedMeals]);
+
+  const getColor = (macro, value) => {
+    const [min, max] = targets[`${macro}Range`];
+    if (value >= min && value <= max) return 'bg-green-500';
+    return 'bg-red-500';
+  };
+
+  const isMacroValid = (macro) => {
+    const [min, max] = targets[`${macro}Range`];
+    return totals[macro] >= min && totals[macro] <= max;
+  };
+
+  return (
+    <div className='my-6 p-4 bg-white shadow rounded-xl'>
+      <h2 className='text-lg font-semibold mb-4'>Your Macronutrient Progress</h2>
+      {['protein', 'carbs', 'fats'].map((macro) => (
+        <div className='mb-4' key={macro}>
+          <div className='flex justify-between mb-1'>
+            <span className='capitalize'>
+              {macro} ({targets[`${macro}Range`][0]}–{targets[`${macro}Range`][1]}g)
+            </span>
+            <span className='font-medium'>
+              {totals[macro]}g / {targets[macro]}g {isMacroValid(macro) ? '✅' : '❌'}
+            </span>
+          </div>
+          <div className='w-full bg-gray-200 rounded h-4 overflow-hidden'>
+            <div
+              className={`${getColor(macro, totals[macro])} h-full transition-all duration-300`}
+              style={{ width: `${Math.min(100, (totals[macro] / targets[macro]) * 100)}%` }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export default SplitCalories
+export default SplitCalories;

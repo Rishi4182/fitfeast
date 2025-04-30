@@ -9,15 +9,14 @@ if(!PUBLISHABLE_KEY){
   throw new Error("Missing Publishable key")
 }
 
-
 function RootLayout() {
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <div>
-          <Header/>
-          <div style={{minHeight:"90vh"}}>
+      <div className="app-container">
+      <Header/>
+          <main className="main-content" style={{minHeight:"90vh"}}>
               <Outlet/>
-          </div>
+          </main>
           <Footer/>
       </div>
     </ClerkProvider>

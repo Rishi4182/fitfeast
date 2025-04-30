@@ -26,7 +26,7 @@ function MealDisplay(props) { // {mealType, mealss, onSelectMeal}
                     props.mealss.map((meal) => (
                         <tr key={meal.id} className='hover:bg-gray-100'>
                             <td className='border p-2'>
-                                <input type="checkbox" onChange={()=>props.onSelectMeal(meal)}/>
+                                <input type="checkbox" checked={props.selectedMeals?.some((m) => m._id === meal._id)} onChange={()=>props.onSelectMeal(meal)}/>
                             </td >
                             <td className='border p-2'>{meal.name}</td>
                             <td className='border p-2'>{meal.category}</td>

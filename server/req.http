@@ -43,6 +43,9 @@ Content-Type: application/json
 ###get all plans
 GET http://localhost:4000/plan-api/plan
 
+###get all plans by user id
+GET http://localhost:4000/plan-api/plan/68016ae3a85cc19047c79e96
+
 ###get plan by calories
 GET http://localhost:4000/plan-api/plan/1600
 
@@ -78,15 +81,15 @@ POST http://localhost:4000/food-api/meals
 Content-Type: application/json
 
 {
-  "id":4,
-  "name": "Brown Rice",
-  "category": ["Grains"],
-  "type": ["Vegan", "Vegetarian"],
-  "mealType": ["Lunch", "Dinner"],
-  "caloriesPer100g": 110,
-  "proteinPer100g": 3,
-  "carbsPer100g": 23,
-  "fatsPer100g": 1
+    "id": 4,
+    "name": "Brown Rice",
+    "category": ["Grains"],
+    "type": ["Vegan", "Vegetarian"],
+    "mealType": ["Lunch", "Dinner"],
+    "caloriesPer100g": 110,
+    "proteinPer100g": 3,
+    "carbsPer100g": 23,
+    "fatsPer100g": 1
 }
 
 
@@ -101,9 +104,9 @@ POST http://localhost:4000/product-api/products
 Content-Type: application/json
 
 {
-    "img":"https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwi79pPr5ZKMAxXzqGYCHWa3BxgYABALGgJzbQ&co=1&gclid=Cj0KCQjwkN--BhDkARIsAD_mnIquWTAFvKYnglKhbow9w3upY1q3f-PYW4VbfC1xBu_m3uhfGOpZXzEaArLUEALw_wcB&ohost=www.google.com&cid=CAESVeD2JZTPhYmltUNffpu4hWOT76rUEgLBE-bGmz4BZBai0c6NvWgl5NDdvAUPawJS8BZRu1p41heZYmvULFClQ72g0-TEgzvNDTmL9USJFBgn21jTFms&sig=AOD64_2iAejTu70b9oHGjQuZ6FPqkGEYzA&ctype=5&q=&ved=2ahUKEwjc8o7r5ZKMAxWAXGwGHTnvDFMQ9aACKAB6BAgJEDY&adurl=",
-    "title":"Creatine",
-    "description":"Boost up your enrgy",
-    "price":800,
-    "id":10
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMqTDZdbMDwaqVL83Wois6gzSJIdHkZpxD4A&s",
+    "title": "protein bar",
+    "description": "get your energy back with this",
+    "price": 500,
+    "id": 7
 }

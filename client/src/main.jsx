@@ -14,6 +14,7 @@ import Cart from './Components/Cart/Cart'
 import Plan from './Components/Plans/Plan'
 import './App.css'
 import FilterContext from './Contexts/FilterContext'
+import SavedPlans from './Components/Plans/SavedPlans'
 import MealPlanner from './Components/Plans/MealPlanner'
 import PlanContext from './Contexts/PlanContext'
 // import App from './App.jsx'
@@ -54,6 +55,10 @@ const browserRouterObj = createBrowserRouter([
       {
         path: "user-profile/:email", 
         element: <UserProfile/>
+      }, 
+      {
+        path: "saved-plans", 
+        element: <SavedPlans/>
       }
     ]
   }
@@ -67,7 +72,7 @@ createRoot(document.getElementById('root')).render(
       <FilterContext>
         <PlanContext>
           <RouterProvider router = {browserRouterObj}/>
-        </PlanContext>
+          </PlanContext>
       </FilterContext>
       {/* <App /> */}
       </UserContext>
