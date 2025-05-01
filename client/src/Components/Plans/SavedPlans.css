@@ -1,0 +1,226 @@
+.plan-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #fff, #f8fafc);
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.plan-card-activity {
+    margin-bottom: 10px;
+}
+
+.plan-card-activity .badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    border-radius: 30px;
+}
+
+.plan-card-info {
+    padding: 10px 0;
+    border-top: 1px solid #edf2f7;
+}
+
+.plan-card-footer {
+    border-top: 1px solid #edf2f7;
+    padding-top: 12px;
+}
+
+/* Modal Styling */
+.plan-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.plan-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.plan-modal-content {
+    background-color: white;
+    border-radius: 12px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    animation: modalFadeIn 0.3s ease forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.plan-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    line-height: 1;
+    color: #64748b;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.plan-modal-close:hover {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+.plan-modal-header {
+    padding: 25px 30px;
+    border-bottom: 1px solid #edf2f7;
+    background: linear-gradient(to right, #f8fafc, #ffffff);
+}
+
+.plan-modal-body {
+    padding: 30px;
+}
+
+/* Detail items styling */
+.detail-item {
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.detail-label {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    color: #334155;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Meal section styling */
+.meal-type-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    height: 100%;
+}
+
+.meal-type-title {
+    color: #3498db;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.meal-category {
+    margin-bottom: 15px;
+}
+
+.meal-category-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 3px solid;
+}
+
+.meal-category-title:first-of-type {
+    border-left-color: #2ecc71;
+}
+
+.meal-category-title:last-of-type {
+    border-left-color: #e74c3c;
+}
+
+.meal-list {
+    padding-left: 13px;
+}
+
+.meal-item {
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+}
+
+.meal-item:not(:last-child) {
+    border-bottom: 1px dashed #edf2f7;
+}
+
+.meal-name {
+    font-size: 0.95rem;
+    color: #334155;
+}
+
+.no-meals {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-style: italic;
+    padding: 5px 0;
+}
+
+/* Body class to prevent scrolling when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .plan-modal-content {
+        width: 95%;
+    }
+    
+    .detail-value {
+        font-size: 1rem;
+    }
+    
+    .meal-type-card {
+        padding: 15px;
+    }
+}
+
+/* Make the hover effect work on touch devices */
+@media (hover: none) {
+    .plan-card:hover {
+        transform: none;
+    }
+}

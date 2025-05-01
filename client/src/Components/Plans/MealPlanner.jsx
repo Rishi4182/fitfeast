@@ -1,56 +1,106 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { filtercontextObj } from '../../Contexts/FilterContext';
-import MealDisplay from './MealDisplay';
-import './styles.css';
+import axios from 'axios';
 
-function MealPlanner({ selectedMeals, onSelectMeals, caloriesTarget }) {
-  const { filters } = useContext(filtercontextObj);
-  const [meals, setMeals] = useState([]);
+const MealPlanner = {
+  allMeals: [],
 
-  useEffect(() => {
-    const fetchMeals = async () => {
-      const query = new URLSearchParams(filters).toString();
-      const response = await fetch(`http://localhost:4000/food-api/meal?${query}`);
-      const data = await response.json();
-      setMeals(data.payload || []);
-    };
-    fetchMeals();
-  }, [filters]);
-
-  const handleSelectMeal = (meal) => {
-    const exists = selectedMeals.find((m) => m._id === meal._id);
-    if (exists) {
-      onSelectMeals(selectedMeals.filter((m) => m._id !== meal._id));
-    } else {
-      onSelectMeals([...selectedMeals, meal]);
+  // Load all meals and cache them
+  loadAllMeals: async () => {
+    if (MealPlanner.allMeals.length === 0) {
+      try {
+        const response = await axios.get('http://localhost:4000/food-api/meal');
+        MealPlanner.allMeals = response.data.payload || [];
+      } catch (error) {
+        console.error("Error loading meals:", error);
+        return [];
+      }
     }
-  };
+    return MealPlanner.allMeals;
+  },
 
-  const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner"];
+  // Get filtered meals based on meal type and filters
+  getFilteredMeals: (mealType, calorieTarget) => {
+    const { filters } = useContext(filtercontextObj);
+    
+    // Get all meals from your data source
+    let meals = MealPlanner.allMeals; // Assuming this function exists
+    
+    // Filter by meal type (Breakfast, Lunch, etc)
+    meals = meals.filter(meal => {
+      return meal.mealType.some(type => 
+        type.toLowerCase().includes(mealType.toLowerCase())
+      );
+    });
+    
+    // Apply search filter if there is a search term
+    if (filters.searchTerm && filters.searchTerm.trim() !== '') {
+      const searchTermLower = filters.searchTerm.toLowerCase();
+      meals = meals.filter(meal => {
+        return meal.name.toLowerCase().includes(searchTermLower) || 
+               meal.ingredients?.some(ingredient => 
+                 ingredient.toLowerCase().includes(searchTermLower)
+               );
+      });
+    }
+    
+    // Apply type filter (Vegetarian, Non-vegetarian, etc)
+    if (filters.type) {
+      meals = meals.filter(meal => {
+        return meal.type.includes(filters.type);
+      });
+    }
+    
+    // Apply the meal type filter (if specific meal type is selected)
+    if (filters.mealType) {
+      meals = meals.filter(meal => {
+        return meal.mealType.includes(filters.mealType);
+      });
+    }
+    
+    return meals;
+  },
 
-  return (
-    <div className='mt-4'>
-      {filters.mealType === ""
-        ? mealTypes.map((type) => (
-            <MealDisplay
-              key={type}
-              mealType={type}
-              mealss={meals.filter((meal) => meal.mealType.includes(type))}
-              onSelectMeal={handleSelectMeal}
-              selectedMeals={selectedMeals}
-            />
-          ))
-        : (
-            <MealDisplay
-              key={filters.mealType}
-              mealType={filters.mealType}
-              mealss={meals.filter((meal) => meal.mealType.includes(filters.mealType))}
-              onSelectMeal={handleSelectMeal}
-              selectedMeals={selectedMeals}
-            />
-          )}
-    </div>
-  );
+  // Calculate macronutrients for selected meals
+  calculateMacros: (selectedMeals, calorieTarget) => {
+    const proteinTarget = Math.round((calorieTarget * 0.3) / 4);
+    const carbsTarget = Math.round((calorieTarget * 0.5) / 4);
+    const fatsTarget = Math.round((calorieTarget * 0.2) / 9);
+    
+    let totalProtein = 0, totalCarbs = 0, totalFats = 0;
+    
+    selectedMeals.forEach(meal => {
+      const quantity = meal.quantity || 1;
+      totalProtein += (meal.proteinPer100g || 0) * quantity;
+      totalCarbs += (meal.carbsPer100g || 0) * quantity;
+      totalFats += (meal.fatsPer100g || 0) * quantity;
+    });
+    
+    return {
+      protein: { total: Math.round(totalProtein), target: proteinTarget },
+      carbs: { total: Math.round(totalCarbs), target: carbsTarget },
+      fats: { total: Math.round(totalFats), target: fatsTarget },
+      proteinOK: totalProtein >= 0.9 * proteinTarget && totalProtein <= 1.1 * proteinTarget,
+      carbsOK: totalCarbs >= 0.85 * carbsTarget && totalCarbs <= 1.1 * carbsTarget,
+      fatsOK: totalFats >= 0.8 * fatsTarget && totalFats <= 1.05 * fatsTarget
+    };
+  }
+};
+
+// Initialize meals when the app starts
+MealPlanner.loadAllMeals();
+
+// Component for filter context support
+function MealPlannerComponent({ selectedMeals, onSelectMeals, caloriesTarget }) {
+  const { filters } = useContext(filtercontextObj);
+  
+  // Store filters in a global variable for access by the static methods
+  useEffect(() => {
+    window.currentFilters = filters;
+  }, [filters]);
+  
+  // This component doesn't render anything itself - it's just for context access
+  return null;
 }
 
 export default MealPlanner;

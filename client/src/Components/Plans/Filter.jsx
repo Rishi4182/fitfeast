@@ -1,60 +1,79 @@
-import React, { useContext } from 'react'
-import { useState,useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { filtercontextObj } from '../../Contexts/FilterContext';
+import './filter.css';
 
 function Filter() {
-    const {filters,setFilters}=useContext(filtercontextObj);
-        function handleChange(e) {
-          const { name, value } = e.target;
-          setFilters((prev) => ({
+    const {filters, setFilters} = useContext(filtercontextObj);
+    const [searchTerm, setSearchTerm] = useState('');
+    
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setFilters((prev) => ({
             ...prev,
             [name]: value
-          }))
-        //   console.log(filters)
-        };
-        return (
-          <div className="flex gap-4 p-4 bg-gray-100 rounded-xl">
-            {/* Type */}
-            <select name="type" value={filters.type} onChange={handleChange} className="border p-2 rounded">
-              <option value="">All Types</option>
-              <option value="Vegetarian">Veg</option>
-              <option value="Non-vegetarian">Non-Veg</option>
-              <option value="Vegan">Vegan</option>
-              <option value="Keto">Keto</option>
-            </select>
-      
-            {/* Meal Type */}
-            <select name="mealType" value={filters.mealType} onChange={handleChange} className="border p-2 rounded">
-              <option value="">All Meals</option>
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Snack">Snack</option>
-              <option value="Dinner">Dinner</option>
-            </select>
-      
-            {/* Allergens */}
-            {/* <select
-              name="excludeAllergens"
-              value={filters.excludeAllergens}
-              onChange={handleChange}
-              className="border p-2 rounded"
-            >
-              <option value="">No Allergens</option>
-              <option value="Gluten">Gluten</option>
-              <option value="Nuts">Nuts</option>
-              <option value="Dairy">Dairy</option>
-              <option value="Eggs">Eggs</option>
-            </select> */}
-      
-            {/* Sorting */}
-            {/* <select name="sortBy" value={filters.sortBy} onChange={handleChange} className="border p-2 rounded">
-              <option value="popularityScore">Popularity</option>
-              <option value="preparationTime">Preparation Time</option>
-              <option value="caloriesPer100g">Calories</option>
-            </select> */}
-          </div>
-        );
-      
+        }));
+    }
+    
+    function handleSearch(e) {
+        const value = e.target.value;
+        setSearchTerm(value);
+        
+        setFilters((prev) => ({
+            ...prev,
+            searchTerm: value
+        }));
+    }
+    
+    return (
+        <div className="filter-container">
+            <div className="search-box mb-3">
+                <input
+                    type="text"
+                    className="form-control search-input"
+                    placeholder="Search meals..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
+                <i className="bi bi-search search-icon"></i>
+            </div>
+            
+            <div className="filter-options">
+                <div className="row g-2">
+                    <div className="col-md-6">
+                        <label className="form-label small fw-medium text-muted mb-1">Food Type</label>
+                        <select 
+                            name="type" 
+                            value={filters.type} 
+                            onChange={handleChange} 
+                            className="form-select form-select-sm shadow-sm"
+                        >
+                            <option value="">All Types</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                            <option value="Non-vegetarian">Non-vegetarian</option>
+                            <option value="Vegan">Vegan</option>
+                            <option value="Keto">Keto</option>
+                        </select>
+                    </div>
+                    
+                    <div className="col-md-6">
+                        <label className="form-label small fw-medium text-muted mb-1">Meal Category</label>
+                        <select 
+                            name="mealType" 
+                            value={filters.mealType} 
+                            onChange={handleChange} 
+                            className="form-select form-select-sm shadow-sm"
+                        >
+                            <option value="">All Meals</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Snack">Snack</option>
+                            <option value="Dinner">Dinner</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
-export default Filter
+export default Filter;

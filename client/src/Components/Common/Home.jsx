@@ -60,7 +60,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="featured-section">
+      {/* <section className="featured-section">
         <h2>Featured Products</h2>
         <div className="featured-products">
           {featuredProducts.map(product => (
@@ -72,7 +72,7 @@ function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section className="about-section">
         <div className="about-content">
