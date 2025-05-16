@@ -1,51 +1,139 @@
-import React, { useContext } from 'react'
-import './Product.css'
-import { userContextObj } from '../../Contexts/UserContext'
-import axios from 'axios'
+import React, { useState, useContext } from 'react';
+import { userContextObj } from '../../Contexts/UserContext';
+import axios from 'axios';
+import './CartProduct.css';
 
-function CartProduct(props) {
-    // console.log(props.p)
+function CartProduct({ p }) {
+    const { currentUser, setCurrentUser } = useContext(userContextObj);
+    const [quantity, setQuantity] = useState(p.quantity || 1);
+    const [isRemoving, setIsRemoving] = useState(false);
 
-    const {currentUser,setCurrentUser}=useContext(userContextObj)
-
-    async function deleteItem(){
-        let temp = props.p.price
-        let id=props.p.id
-        // console.log(id)
-        let updatedUserProducts=currentUser.userProducts.filter(product=>product.id!=id)
-        // console.log(updatedUserProducts)
+    const updateQuantity = async (newQuantity) => {
+        if (newQuantity < 1) return;
         
-        await axios.put(`http://localhost:4000/user-api/users/${currentUser._id}`,{...currentUser,userProducts:updatedUserProducts})
+        setQuantity(newQuantity);
+        
+        // Update the product quantity in the cart
+        const updatedProducts = currentUser.userProducts.map(item => 
+            (item._id === p._id || item.id === p.id) 
+                ? { ...item, quantity: newQuantity } 
+                : item
+        );
+        
+        // Calculate new total cost
+        const newCost = updatedProducts.reduce(
+            (total, item) => total + (item.price * (item.quantity || 1)), 0
+        );
+        
+        try {
+            // Update in database
+            await axios.put(`http://localhost:4000/user-api/users/${currentUser._id}`, {
+                ...currentUser,
+                userProducts: updatedProducts,
+                cost: newCost
+            });
+            
+            // Update local state
+            setCurrentUser({
+                ...currentUser,
+                userProducts: updatedProducts,
+                cost: newCost
+            });
+        } catch (error) {
+            console.error("Error updating quantity:", error);
+        }
+    };
 
-        const rep=await axios.get(`http://localhost:4000/user-api/users/${currentUser.email}`)
-        rep.data.payload.cost=rep.data.payload.cost - temp
-        await axios.put(`http://localhost:4000/user-api/users/${rep.data.payload._id}`, {cost:rep.data.payload.cost})
-        setCurrentUser(rep.data.payload);
-        // console.log(rep.data.payload)
-    }
+    const deleteItem = async () => {
+        setIsRemoving(true);
+        
+        try {
+            // Filter out the current product
+            const updatedProducts = currentUser.userProducts.filter(item => 
+                item._id !== p._id && item.id !== p.id
+            );
+            
+            // Calculate new cost
+            const newCost = updatedProducts.reduce(
+                (total, item) => total + (item.price * (item.quantity || 1)), 0
+            );
+            
+            // Update in database
+            await axios.put(`http://localhost:4000/user-api/users/${currentUser._id}`, {
+                ...currentUser,
+                userProducts: updatedProducts,
+                cost: newCost
+            });
+            
+            // Update local state
+            setCurrentUser({
+                ...currentUser,
+                userProducts: updatedProducts,
+                cost: newCost
+            });
+        } catch (error) {
+            console.error("Error removing item:", error);
+            setIsRemoving(false);
+        }
+    };
 
+    const itemTotal = (p.price * quantity).toFixed(2);
 
-
-
-  return (
-    <div className='ff-product-item card h-100' style={{ height: "350px" }}>
-    <div className="ff-product-item-head card-img-top d-flex justify-content-center">
-        <img className='ff-product-item-img img-fluid' src={props.p.img} alt="" 
-             style={{ height: "150px", width: "auto", objectFit: "cover" }} />
-    </div>
-    <div className="ff-product-item-body card-body d-flex flex-column">
-        <h2 className="ff-product-item-title card-title text-truncate" style={{ fontSize: "1.2rem" }}>
-            {props.p.title}
-        </h2>
-        <p className="ff-product-item-description card-text text-truncate">
-            {props.p.description}
-        </p>
-        <p className='ff-product-item-price card-text fw-bold'>${props.p.price}</p>
-        <button className='btn btn-danger ' onClick={deleteItem}>Remove</button>
-
-    </div>
-</div>
-  )
+    return (
+        <div className="cart-product">
+            <div className="cart-product-image">
+                <img src={p.img} alt={p.title} />
+            </div>
+            
+            <div className="cart-product-details">
+                <h3 className="cart-product-title">{p.title}</h3>
+                <p className="cart-product-description">{p.description}</p>
+                
+                <div className="cart-product-meta">
+                    <div className="cart-product-price">${p.price.toFixed(2)}</div>
+                    
+                    <div className="cart-quantity-control">
+                        <button 
+                            className="cart-quantity-btn decrease" 
+                            onClick={() => updateQuantity(quantity - 1)}
+                            disabled={quantity <= 1}
+                        >
+                            <i className="bi bi-dash">-</i>
+                        </button>
+                        
+                        <span className="cart-quantity-value">{quantity}</span>
+                        
+                        <button 
+                            className="cart-quantity-btn increase" 
+                            onClick={() => updateQuantity(quantity + 1)}
+                        >
+                            <i className="bi bi-plus">+</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div className="cart-product-actions">
+                <div className="cart-product-total">
+                    <span className="total-label">Total:</span>
+                    <span className="total-value">${itemTotal}</span>
+                </div>
+                
+                <button 
+                    className="cart-remove-btn" 
+                    onClick={deleteItem}
+                    disabled={isRemoving}
+                >
+                    {isRemoving ? (
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    ) : (
+                        <i className="bi bi-trash"></i>
+                    )}
+                    Remove
+                </button>
+            </div>
+        </div>
+    );
 }
 
-export default CartProduct
+export default CartProduct;

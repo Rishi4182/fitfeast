@@ -17,6 +17,7 @@ import FilterContext from './Contexts/FilterContext'
 import SavedPlans from './Components/Plans/SavedPlans'
 import MealPlanner from './Components/Plans/MealPlanner'
 import PlanContext from './Contexts/PlanContext'
+import Checkout from './Components/Cart/Checkout'
 // import App from './App.jsx'
 
 const browserRouterObj = createBrowserRouter([
@@ -59,6 +60,10 @@ const browserRouterObj = createBrowserRouter([
       {
         path: "saved-plans", 
         element: <SavedPlans/>
+      },
+      {
+        path:"checkout",
+        element:<Checkout/>
       }
     ]
   }

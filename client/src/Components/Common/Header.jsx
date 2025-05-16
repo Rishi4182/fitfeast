@@ -30,6 +30,13 @@ const Header = () => {
     return location.pathname === path ? 'active-link' : '';
   };
 
+  // Calculate total items in cart (accounting for quantity)
+  // const cartItemCount = currentUser?.userProducts?.reduce(
+  //   (total, item) => total + (item.quantity || 1), 0
+  // ) || 0;
+  const cartItemCount = currentUser?.userProducts?.reduce(
+    (total, item) => total + (item.quantity > 0 ? item.quantity : 0), 0
+  ) || 0;
 
   return (
     <header className='site-header'>
@@ -77,8 +84,11 @@ const Header = () => {
                 <Link to='/saved-plans' className='me-4'>
                   View Saved Plans
                 </Link>
-                <Link to="/cart" className="cart-link">
-                  <span className="cart-icon">🛒</span>
+                <Link to="/cart" className="cart-icon-container">
+                  <i className="bi bi-cart3">🛒</i>
+                  {cartItemCount > 0 && (
+                    <span className="cart-count">{cartItemCount}</span>
+                  )}
                 </Link>
                 <div className="user-profile-dropdown">
                   <div className="user-avatar">
