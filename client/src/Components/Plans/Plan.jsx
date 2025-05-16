@@ -9,7 +9,7 @@ import StickyMacroTracker from './StickyMacroTracker';
 import MealDisplay from './MealDisplay';
 import SelectedMealsDrawer from './SelectedMealsDrawer';
 import FloatingActionButton from './FloatingActionButton';
-import './plan.css';
+import './Plan.css';
 
 function Plan() {
     const { currentUser, setCurrentUser } = useContext(userContextObj);
